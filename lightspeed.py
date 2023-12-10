@@ -69,7 +69,13 @@ def handle_hotkey_number_enter(name):
 
 def open_folder(folder_path):
     '''打开文件夹'''
-    subprocess.run(['explorer', folder_path])
+    windows = gw.getWindowsWithTitle(folder_path)
+    if len(windows) > 0:
+        for window in windows:
+            window.minimize()
+            window.restore()
+    else:
+        subprocess.run(['explorer', folder_path])
 
 def load_folder_hotkey(name):
     '''加载文件夹内快捷方式快捷键'''
@@ -112,6 +118,8 @@ def loop_add_hotkey():
         load_folder_hotkey(f"{key}")# 加载文件夹内快捷方式快捷键
         keyboard.add_hotkey(f"{key}+enter", handle_hotkey_number_enter , args=[f"{key}"])# 快捷键 数字 + enter 事件处理
     print_cyan("-"*22+f"[end]"+"-"*22)
+    keyboard.add_hotkey(f"ctrl+f12", loop_add_hotkey) # 重载
+    
     
 def load_json_config():
     '''加载配置文件'''
@@ -149,7 +157,6 @@ def hide_window():
 if __name__ == "__main__":
     load_json_config()
     loop_add_hotkey()
-    keyboard.add_hotkey(f"ctrl+f12", loop_add_hotkey) # 重载
     first_run = False
     hide_window()
     # keyboard.add_abbreviation("11", "john@stackabuse.com")
