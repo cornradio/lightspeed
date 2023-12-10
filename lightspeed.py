@@ -64,16 +64,18 @@ def create_folder(key):
 def handle_hotkey_number_enter(name):
     '''# 快捷键 数字 + enter 事件处理'''
     key = name
-    print_green(f"{datetime.now().strftime(time_format)} ",f"{key}+enter -- open folder")
+    print_green(f"{datetime.now().strftime(time_format)} ",f"{key}+enter -- open folder [{folder_root_path+key}]")
     open_folder(folder_root_path+key)
 
 def open_folder(folder_path):
     '''打开文件夹'''
     windows = gw.getWindowsWithTitle(folder_path)
-    if len(windows) > 0:
+    if folder_path == "0":
+        subprocess.run(['explorer', folder_path]) # 本来打算如果开启1的时候就强制打开。因为很多界面名字都叫1，可能需要让文件夹改名
+    elif len(windows) > 0:
         for window in windows:
             window.minimize()
-            window.restore()
+            window.restore()2t
     else:
         subprocess.run(['explorer', folder_path])
 
