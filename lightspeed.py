@@ -70,14 +70,14 @@ def handle_hotkey_number_enter(name):
 def open_folder(folder_path):
     '''打开文件夹'''
     windows = gw.getWindowsWithTitle(folder_path)
-    if folder_path == "0":
-        subprocess.run(['explorer', folder_path]) # 本来打算如果开启1的时候就强制打开。因为很多界面名字都叫1，可能需要让文件夹改名
-    elif len(windows) > 0:
-        for window in windows:
-            window.minimize()
-            window.restore()
-    else:
-        subprocess.run(['explorer', folder_path])
+    # if folder_path == "0":
+    #     subprocess.run(['explorer', folder_path]) # 本来打算如果开启1的时候就强制打开。因为很多界面名字都叫1，可能需要让文件夹改名
+    # elif len(windows) > 0:
+    #     for window in windows:
+    #         window.minimize()
+    #         window.restore()
+    # else:
+    subprocess.run(['explorer', folder_path])
 
 def load_folder_hotkey(name):
     '''加载文件夹内快捷方式快捷键'''
