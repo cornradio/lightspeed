@@ -88,14 +88,13 @@ def load_folder_hotkey(name):
     for file in files:
         # if file.endswith('.lnk'):
         filepath = os.path.join(folderpath, file)
-        if file[0].upper() in 'ABCDEFGHIJKLMNOPQRSTUVWXYZ':
+        if file[0].upper() in 'ABCDEFGHIJKLMNOPQRSTUVWXYZ[]':
             hotkey = f'{name}+' + file[0].upper()
         else:# 如果有中文（不支持添加快捷键）
             print_red('nope',file)
             continue
             # hotkey = f'{name}+' + '/' #file[0].upper()
         title = file.replace('.lnk', '').replace(' - 快捷方式', '').replace(' - 副本', '') # todo needed english version 
-        
         #  custom hotkeys like add [Q]
         if file.startswith('['):
             hotkey =  f'{name}+'+ file[1].upper()
