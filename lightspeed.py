@@ -31,7 +31,7 @@ class lightspeed_obj:
 
     def myopen(self):
        self.open_or_activate()
-       print(f"按下了快捷键：{self.hotkey}")
+       print(f"Pressed：{self.hotkey} -- open or activate {self.title}")
                         
 
     def set_hotkey(self):
@@ -53,7 +53,7 @@ def create_folder(key):
 def handle_hotkey_number_enter(name):
     '''# 快捷键 数字 + enter 事件处理'''
     key = name
-    print(f"按下了快捷键：{key}+enter")
+    print(f"Pressed：{key}+enter -- open folder")
     open_folder(folder_root_path+key)
 
 def open_folder(folder_path):
