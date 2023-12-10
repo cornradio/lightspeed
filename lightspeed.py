@@ -75,7 +75,7 @@ def open_folder(folder_path):
     elif len(windows) > 0:
         for window in windows:
             window.minimize()
-            window.restore()2t
+            window.restore()
     else:
         subprocess.run(['explorer', folder_path])
 
