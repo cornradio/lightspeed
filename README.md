@@ -35,8 +35,7 @@ or use windows `task scheduler` to run the script at startup (choose run with hi
 
 ## cool
 speed is insine ,  i can't even see the window pop up
-![Imgur](https://i.imgur.com/vroF1F1.gifv)
-
+<a href="https://imgur.com/vroF1F1"><img src="https://i.imgur.com/vroF1F1.gif" title="source: imgur.com" /></a>
 
 ##  change the hotkey
 
