@@ -4,8 +4,9 @@ import subprocess
 import pygetwindow as gw
 import json
 from console_color_writer import *
-
-
+from datetime import datetime
+import pyautogui
+import time
 
 class lightspeed_obj:
     def __init__(self, title, path, hotkeystr):
@@ -30,7 +31,7 @@ class lightspeed_obj:
 
     def myopen(self):
        self.open_or_activate()
-       print(f"Pressed: {self.hotkeystr} -- open or activate [{self.title}]")
+       print_green(f"{datetime.now().strftime(time_format)}",f"{self.hotkeystr} -- open or activate [{self.title}]")
                         
     
     def set_hotkey(self):
@@ -50,7 +51,8 @@ lightspeed_obj_list = []
 folder_root_path = f"c:\\quick_keys\\"
 folder_root_path = f""
 first_run = True
-
+time_format = "%Y-%m-%d %H:%M:%S"
+datetime.now().strftime(time_format)
 
 
 def create_folder(key):
@@ -62,7 +64,7 @@ def create_folder(key):
 def handle_hotkey_number_enter(name):
     '''# 快捷键 数字 + enter 事件处理'''
     key = name
-    print(f"Pressed：{key}+enter -- open folder")
+    print_green(f"{datetime.now().strftime(time_format)} ",f"{key}+enter -- open folder")
     open_folder(folder_root_path+key)
 
 def open_folder(folder_path):
@@ -80,8 +82,10 @@ def load_folder_hotkey(name):
         filepath = os.path.join(folderpath, file)
         if file[0].upper() in 'ABCDEFGHIJKLMNOPQRSTUVWXYZ':
             hotkey = f'{name}+' + file[0].upper()
-        else:
-            hotkey = f'{name}+' + '/' #file[0].upper()
+        else:# 如果有中文（不支持添加快捷键）
+            print_red('nope',file)
+            continue
+            # hotkey = f'{name}+' + '/' #file[0].upper()
         title = file.replace('.lnk', '').replace(' - 快捷方式', '').replace(' - 副本', '') # todo needed english version 
         
         #  custom hotkeys like add [Q]
@@ -95,10 +99,11 @@ def loop_add_hotkey():
     if first_run:
         print("loading...")
     else:
-        # keyboard.remove_all_hotkeys()
-        for obj in lightspeed_obj_list:
-            keyboard.remove_hotkey(obj.hotkey)
-        # lightspeed_obj_list.clear()
+        keyboard.remove_all_hotkeys()
+        # for lightspeed_obj in lightspeed_obj_list:
+        #     keyboard.remove_hotkey(lightspeed_obj.hotkey)
+        #     lightspeed_obj = None
+        lightspeed_obj_list.clear()
         print_red("reloading...")
         
     for key in range(1, 10):
@@ -125,6 +130,19 @@ def load_json_config():
     json_config = json.loads(open("config.json", encoding='utf-8').read())
     folder_root_path = json_config["folder_root_path"]
 
+
+def hide_window():
+    '''隐藏窗口'''
+    try:
+        # 等待一段时间，确保窗口已经打开
+        time.sleep(1)
+        # 获取当前窗口的位置和大小
+        window = pyautogui.getWindowsWithTitle('lightspeed.py')[0]
+        # 模拟按下窗口最小化按钮
+        window.minimize()
+    except Exception as e:
+        print_red("hide_window",e)
+        pass
     
 # --------------------------------------------------------------------------------
 
@@ -133,6 +151,7 @@ if __name__ == "__main__":
     loop_add_hotkey()
     keyboard.add_hotkey(f"ctrl+f12", loop_add_hotkey) # 重载
     first_run = False
+    hide_window()
     # keyboard.add_abbreviation("11", "john@stackabuse.com")
     # 监听快捷键事件
     keyboard.wait()
