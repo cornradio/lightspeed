@@ -1,2 +1,3 @@
 keyboard
 pygetwindow
+console_color_writer
