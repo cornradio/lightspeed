@@ -60,13 +60,14 @@ config_data = {
     "playsound": "off",
     "reload_key": "ctrl+f12",
     "open_config_key": "ctrl+shift+f12",
+    "blind_test_key": "ctrl+shift+f11",
 }
 
 def try_create_config():
     '''尝试创建配置文件,仅在第一次运行时创建'''
     try:
         with open(config_path, encoding='utf-8') as file:
-            config_data = json.load(file)
+            tmp = json.load(file)
     except FileNotFoundError:
         with open(config_path, "w", encoding='utf-8') as file:
             json.dump(config_data, file, indent=4)
@@ -88,10 +89,10 @@ def check_config():
 
 def load_json_config():
     '''加载配置文件'''
+    try_create_config()
     global config_data
     with open(config_path, encoding='utf-8') as file:
         json_config = json.load(file)
-        try_create_config()
         check_config()
         config_data.update(json_config) # 更新配置文件
 
@@ -177,8 +178,12 @@ def reload_all():
     loop_add_hotkey()
     keyboard.add_hotkey(config_data['reload_key'], reload_all) # 重载快捷键
     keyboard.add_hotkey(config_data['open_config_key'], open_folder , args=[f"{os.getcwd()}\\{config_path}"]) # 打开config快捷键
+    keyboard.add_hotkey(config_data['blind_test_key'], blind_test ) # 打开config快捷键
+    
+    
     print_white("reload:",f"{config_data['reload_key']}")
     print_white("edit config:",f"{config_data['open_config_key']}")
+    print_white("blind test:",f"{config_data['blind_test_key']}")
     play_sound()
 
 def hide_window():
@@ -218,10 +223,13 @@ def show_notification(title,message):
         
 def play_sound():
     if config_data['playsound'] == 'on':
-        sound_file=rf"{os.getcwd()}\assests\effect2.wav"
+        sound_file=f"{os.getcwd()}\\assests\\effect2.wav"
         playsound(sound_file)
-    
-    
+
+def blind_test():
+    sound_file=f"{os.getcwd()}\\assests\\effect2.wav"
+    playsound(sound_file)
+
 # --------------------------------------------------------------------------------
 
 if __name__ == "__main__":
@@ -231,4 +239,6 @@ if __name__ == "__main__":
     hide_window()
     # keyboard.add_abbreviation("11", "john@stackabuse.com")
     # 监听快捷键事件
+    while True:
+        time.sleep(0.1)
     keyboard.wait()
