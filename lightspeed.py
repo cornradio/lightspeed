@@ -39,7 +39,7 @@ class lightspeed_obj:
             self.start_program()
     def myopen(self):
        self.open_or_activate()
-       print_green(f"{datetime.now().strftime(time_format)}",f"{self.hotkeystr} -- open or activate [{self.title}]")
+       print_green(f"\r{datetime.now().strftime(time_format)}",f"{self.hotkeystr} -- open or activate [{self.title}]")
                         
     
     def set_hotkey(self):
@@ -115,7 +115,7 @@ def create_folder(key):
 def handle_hotkey_number_enter(name):
     '''# 快捷键 数字 + enter 事件处理'''
     key = name
-    print_green(f"{datetime.now().strftime(time_format)} ",f"{key}+{config_data['open_floder_key']} -- open folder [{config_data['folder_root_path']+key}]")
+    print_green(f"\r{datetime.now().strftime(time_format)} ",f"{key}+{config_data['open_floder_key']} -- open folder [{config_data['folder_root_path']+key}]")
     open_folder(config_data['folder_root_path']+key)
 
 def open_folder(folder_path):
