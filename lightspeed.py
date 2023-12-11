@@ -1,7 +1,6 @@
 import os
 import keyboard
 import subprocess
-import pygetwindow as gw
 import json
 from console_color_writer import *
 from datetime import datetime
@@ -25,17 +24,27 @@ class lightspeed_obj:
         subprocess.Popen(self.path, shell=True, creationflags=creation_flags)
         # process = subprocess.Popen(self.path, shell=True,stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         
+    # def open_or_activate1(self):
+    #     '''打开或激活窗口'''
+    #     show_notification(self.hotkeystr,self.title)
+    #     windows = gw.getWindowsWithTitle(self.title)
+    #     if len(windows) > 0:
+    #         for window in windows:
+    #             window.minimize()
+    #             window.show()
+    #     else:
+    #         self.start_program()
+
     def open_or_activate(self):
         '''打开或激活窗口'''
         show_notification(self.hotkeystr,self.title)
-        windows = gw.getWindowsWithTitle(self.title)
+        windows = pyautogui.getWindowsWithTitle(self.title)
         if len(windows) > 0:
             for window in windows:
                 window.minimize()
                 window.restore()
         else:
             self.start_program()
-
     def myopen(self):
        self.open_or_activate()
        print_green(f"{datetime.now().strftime(time_format)}",f"{self.hotkeystr} -- open or activate [{self.title}]")
