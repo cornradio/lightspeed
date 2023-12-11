@@ -201,6 +201,17 @@ def hide_window():
             print_red("hide_window",e)
             pass
 
+def check_if_running():
+    window = pyautogui.getWindowsWithTitle('lightspeed.py')
+    if len(window) > 1:
+        print_yellow("info","lightspeed.py is already running")
+        x = input(' sure you want to run this? [y/n]')
+        if x == 'y':
+            return
+        else:
+            exit()
+
+
 def show_notification(title,message):
     if config_data['notifiction'] == 'on':
         notification.notify(
@@ -215,6 +226,7 @@ def show_notification(title,message):
 # --------------------------------------------------------------------------------
 
 if __name__ == "__main__":
+    check_if_running()
     reload_all()
     first_run = False
     hide_window()
