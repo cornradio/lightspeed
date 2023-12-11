@@ -74,13 +74,18 @@ def try_create_config():
 def load_json_config():
     '''加载配置文件'''
     try_create_config()
-    json_config = json.loads(open(config_path, encoding='utf-8').read())
-    global gofolder_root_path
-    gofolder_root_path = json_config["folder_root_path"]
-    global config_open_floder_key
-    config_open_floder_key = json_config["open_floder_key"]
-    global config_notifiction
-    config_notifiction = json_config["notifiction"]
+    try:
+        json_config = json.loads(open(config_path, encoding='utf-8').read())
+        global gofolder_root_path
+        gofolder_root_path = json_config["folder_root_path"]
+        global config_open_floder_key
+        config_open_floder_key = json_config["open_floder_key"]
+        global config_notifiction
+        config_notifiction = json_config["notifiction"]
+    except Exception:
+        print_red("error","load_json_config error , remove assests/config.json and restart")
+        input("press any key to exit...")
+        exit()
 
 # --------------------------------------------------------------------------------
 
