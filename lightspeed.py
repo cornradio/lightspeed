@@ -50,42 +50,49 @@ class lightspeed_obj:
 
 # config--------------------------------------------------------------------------------
 
-config_path = "assests/config.json"
+config_path = "assests\\config.json"
 config_data = {
     "folder_root_path": "",
     "open_floder_key": "enter",
     "notifiction": "on",
+    "auto_hide": "on",
     "reload_key": "ctrl+f12",
-    "auto_hide": "on"
+    "open_config_key": "ctrl+shift+f12"
 }
 
 def try_create_config():
+    '''尝试创建配置文件,仅在第一次运行时创建'''
     try:
         with open(config_path, encoding='utf-8') as file:
-            global config_data
             config_data = json.load(file)
     except FileNotFoundError:
         with open(config_path, "w", encoding='utf-8') as file:
             json.dump(config_data, file, indent=4)
             print("created config.json")
 
+def check_config():
+    '''检查配置文件'''
+    global config_data
+    
+    with open(config_path, encoding='utf-8') as file:
+        json_config = json.load(file)
+        for k,v in config_data.items():
+            if k not in json_config:
+                print_red("Config Error",f"missing {k}")
+                print_red("example",f'"{k}": "{v}"')
+                print_red("try remove assests/config.json")
+                exit()
+        
+
 def load_json_config():
     '''加载配置文件'''
-    try_create_config()
-    try:
-        json_config = json.loads(open(config_path, encoding='utf-8').read())
-        
-        global config_data
-        config_data['folder_root_path'] = json_config["folder_root_path"]
-        config_data['open_floder_key'] = json_config["open_floder_key"]
-        config_data['notifiction'] = json_config["notifiction"]
-        config_data['reload_key'] = json_config["reload_key"]
-        config_data['auto_hide'] = json_config["auto_hide"]
-        
-    except Exception:
-        print_red("config error","remove assests/config.json and restart")
-        input("press any key to exit...")
-        exit()
+    global config_data
+    with open(config_path, encoding='utf-8') as file:
+        json_config = json.load(file)
+        try_create_config()
+        check_config()
+        config_data.update(json_config) # 更新配置文件
+
 
 # --------------------------------------------------------------------------------
 
@@ -163,10 +170,12 @@ def loop_add_hotkey():
     print_cyan("-"*22+f"[end]"+"-"*22)
 
 def reload_all():
-    loop_add_hotkey()
     load_json_config()
-    keyboard.add_hotkey(config_data['reload_key'], reload_all) # 重载
+    loop_add_hotkey()
+    keyboard.add_hotkey(config_data['reload_key'], reload_all) # 重载快捷键
+    keyboard.add_hotkey(config_data['open_config_key'], open_folder , args=[f"{os.getcwd()}\\{config_path}"]) # 打开config快捷键
     print_white("reload:",f"{config_data['reload_key']}")
+    print_white("edit config:",f"{config_data['open_config_key']}")
     
 
 def hide_window():
