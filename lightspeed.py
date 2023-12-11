@@ -239,6 +239,12 @@ if __name__ == "__main__":
     hide_window()
     # keyboard.add_abbreviation("11", "john@stackabuse.com")
     # 监听快捷键事件
+    ticker = 0
+    ticker2 = 0
     while True:
         time.sleep(0.1)
+        ticker += 1
+        if ticker% 10 == 0:
+            ticker2 += 1
+            print("\r "+"-"*(ticker2%44)+f"<UwU>"+"-"*(44-ticker2%44),end="")
     keyboard.wait()
