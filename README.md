@@ -17,12 +17,9 @@ run ( run in unimportant floder ,this script will create 9 floders and 1 config 
 python lightspeed.py
 ```
 
+after testing , `create_shortcut.bat` can help u create a desktop shortcut . 
 
-or use windows `task scheduler` to run the script at startup (choose run with highest privileges if you want)
-
-![Imgur](https://i.imgur.com/zwhjR2g.png)
-
-
+and you can put it in `shell:startup` to run it at startup .
 
 ## quick start
 
@@ -55,12 +52,12 @@ it's easy to understand
 
 ## config
 
-there will be a `config.json` auto generated if not exist, you can change the `folder_root_path` 
+script will auto generated `assests\config.json`  
 
-but the `config.json`  must be in the program start folder 
 ```
 {
     "folder_root_path": "",
+    "open_floder_key": "/",
     "hint": "you can define folder_root_path , like c:\\quick_keys\\, or leave it empty"
 }
 ```
@@ -80,6 +77,7 @@ but the `config.json`  must be in the program start folder
 - [x] support config file -- quick input -- quick typer!
 - [x] gui for keymap viewing -- i think view it in terminal is just fine 
 - [x] fix stuck problem , 阻塞主进程 , maybe os.Popen() is the problem 
+- [x] easy add a desktop icon shortcut using `create_shortcut.bat`
 - [ ] more features for config file
 
 

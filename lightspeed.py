@@ -42,15 +42,39 @@ class lightspeed_obj:
     def __str__(self):
         return f"lightspeed_obj: {self.name} {self.path} {self.hotkeystr}"
 
+# config--------------------------------------------------------------------------------
+
+config_path = "assests/config.json"
+folder_root_path = f""
+config_open_floder_key = 'enter'
+
+def try_create_config():
+    try:
+        with open(config_path, encoding='utf-8') as file:
+            config_data = json.load(file)
+    except FileNotFoundError:
+        config_data = {
+            "folder_root_path": "",
+            "open_floder_key": "enter",
+            "hint": "you can define folder_root_path , like c:\\quick_keys\\, or leave it empty"
+        }
+    with open(config_path, "w", encoding='utf-8') as file:
+        json.dump(config_data, file, indent=4)
+        print("created config.json")
+
+def load_json_config():
+    '''加载配置文件'''
+    try_create_config()
+    json_config = json.loads(open(config_path, encoding='utf-8').read())
+    global gofolder_root_path
+    gofolder_root_path = json_config["folder_root_path"]
+    global config_open_floder_key
+    config_open_floder_key = json_config["open_floder_key"]
+
 # --------------------------------------------------------------------------------
 
-global lightspeed_obj_list 
-global folder_root_path 
-global first_run 
 
 lightspeed_obj_list = []
-folder_root_path = f"c:\\quick_keys\\"
-folder_root_path = f""
 first_run = True
 time_format = "%Y-%m-%d %H:%M:%S"
 datetime.now().strftime(time_format)
@@ -65,7 +89,7 @@ def create_folder(key):
 def handle_hotkey_number_enter(name):
     '''# 快捷键 数字 + enter 事件处理'''
     key = name
-    print_green(f"{datetime.now().strftime(time_format)} ",f"{key}+enter -- open folder [{folder_root_path+key}]")
+    print_green(f"{datetime.now().strftime(time_format)} ",f"{key}+{config_open_floder_key} -- open folder [{folder_root_path+key}]")
     open_folder(folder_root_path+key)
 
 def open_folder(folder_path):
@@ -118,28 +142,10 @@ def loop_add_hotkey():
         
         create_folder(f"{key}")# 创建文件夹初始化
         load_folder_hotkey(f"{key}")# 加载文件夹内快捷方式快捷键
-        keyboard.add_hotkey(f"{key}+enter", handle_hotkey_number_enter , args=[f"{key}"])# 快捷键 数字 + enter 事件处理
+        keyboard.add_hotkey(f"{key}+{config_open_floder_key}", handle_hotkey_number_enter , args=[f"{key}"])# 快捷键 数字 + enter 事件处理
     print_cyan("-"*22+f"[end]"+"-"*22)
     keyboard.add_hotkey(f"ctrl+f12", loop_add_hotkey) # 重载
     
-    
-def load_json_config():
-    '''加载配置文件'''
-    try:
-        with open("config.json", encoding='utf-8') as file:
-            config_data = json.load(file)
-    except FileNotFoundError:
-        config_data = {
-            "folder_root_path": "",
-            "hint": "you can define folder_root_path , like c:\\quick_keys\\, or leave it empty"
-        }
-        with open("config.json", "w", encoding='utf-8') as file:
-            json.dump(config_data, file, indent=4)
-            print("created config.json")
-        
-    json_config = json.loads(open("config.json", encoding='utf-8').read())
-    folder_root_path = json_config["folder_root_path"]
-
 
 def hide_window():
     '''隐藏窗口'''
@@ -153,6 +159,7 @@ def hide_window():
     except Exception as e:
         print_red("hide_window",e)
         pass
+    
     
 # --------------------------------------------------------------------------------
 
