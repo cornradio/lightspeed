@@ -51,39 +51,39 @@ class lightspeed_obj:
 # config--------------------------------------------------------------------------------
 
 config_path = "assests/config.json"
-folder_root_path = f""
-config_open_floder_key = 'enter'
-config_notifiction = 'on'
-
+config_data = {
+    "folder_root_path": "",
+    "open_floder_key": "enter",
+    "notifiction": "on",
+    "reload_key": "ctrl+f12",
+    "auto_hide": "on"
+}
 
 def try_create_config():
     try:
         with open(config_path, encoding='utf-8') as file:
+            global config_data
             config_data = json.load(file)
     except FileNotFoundError:
-        config_data = {
-            "folder_root_path": "",
-            "open_floder_key": "enter",
-            "notifiction": "on",
-            "hint": "you can define folder_root_path , like c:\\quick_keys\\, or leave it empty"
-        }
-    with open(config_path, "w", encoding='utf-8') as file:
-        json.dump(config_data, file, indent=4)
-        print("created config.json")
+        with open(config_path, "w", encoding='utf-8') as file:
+            json.dump(config_data, file, indent=4)
+            print("created config.json")
 
 def load_json_config():
     '''加载配置文件'''
     try_create_config()
     try:
         json_config = json.loads(open(config_path, encoding='utf-8').read())
-        global gofolder_root_path
-        gofolder_root_path = json_config["folder_root_path"]
-        global config_open_floder_key
-        config_open_floder_key = json_config["open_floder_key"]
-        global config_notifiction
-        config_notifiction = json_config["notifiction"]
+        
+        global config_data
+        config_data['folder_root_path'] = json_config["folder_root_path"]
+        config_data['open_floder_key'] = json_config["open_floder_key"]
+        config_data['notifiction'] = json_config["notifiction"]
+        config_data['reload_key'] = json_config["reload_key"]
+        config_data['auto_hide'] = json_config["auto_hide"]
+        
     except Exception:
-        print_red("error","load_json_config error , remove assests/config.json and restart")
+        print_red("config error","remove assests/config.json and restart")
         input("press any key to exit...")
         exit()
 
@@ -98,15 +98,15 @@ datetime.now().strftime(time_format)
 
 def create_folder(key):
     '''创建文件夹（初始化函数）'''
-    folder_path = folder_root_path + key
+    folder_path = config_data['folder_root_path'] + key
     os.makedirs(folder_path, exist_ok=True)
     # print("已经创建文件夹 "+folder_path)
 
 def handle_hotkey_number_enter(name):
     '''# 快捷键 数字 + enter 事件处理'''
     key = name
-    print_green(f"{datetime.now().strftime(time_format)} ",f"{key}+{config_open_floder_key} -- open folder [{folder_root_path+key}]")
-    open_folder(folder_root_path+key)
+    print_green(f"{datetime.now().strftime(time_format)} ",f"{key}+{config_data['open_floder_key']} -- open folder [{config_data['folder_root_path']+key}]")
+    open_folder(config_data['folder_root_path']+key)
 
 def open_folder(folder_path):
     '''打开文件夹'''
@@ -123,7 +123,7 @@ def open_folder(folder_path):
 
 def load_folder_hotkey(name):
     '''加载文件夹内快捷方式快捷键'''
-    folderpath = os.path.join(folder_root_path, name)
+    folderpath = os.path.join(config_data['folder_root_path'], name)
     files = os.listdir(folderpath)
     if len(files) > 0:
         print_cyan("-"*23+f"[{name}]"+"-"*23)
@@ -159,26 +159,32 @@ def loop_add_hotkey():
         
         create_folder(f"{key}")# 创建文件夹初始化
         load_folder_hotkey(f"{key}")# 加载文件夹内快捷方式快捷键
-        keyboard.add_hotkey(f"{key}+{config_open_floder_key}", handle_hotkey_number_enter , args=[f"{key}"])# 快捷键 数字 + enter 事件处理
+        keyboard.add_hotkey(f"{key}+{config_data['open_floder_key']}", handle_hotkey_number_enter , args=[f"{key}"])# 快捷键 数字 + enter 事件处理
     print_cyan("-"*22+f"[end]"+"-"*22)
-    keyboard.add_hotkey(f"ctrl+f12", loop_add_hotkey) # 重载
+
+def reload_all():
+    loop_add_hotkey()
+    load_json_config()
+    keyboard.add_hotkey(config_data['reload_key'], reload_all) # 重载
+    print_white("reload:",f"{config_data['reload_key']}")
     
 
 def hide_window():
     '''隐藏窗口'''
-    try:
-        # 等待一段时间，确保窗口已经打开
-        time.sleep(1)
-        # 获取当前窗口的位置和大小
-        window = pyautogui.getWindowsWithTitle('lightspeed.py')[0]
-        # 模拟按下窗口最小化按钮
-        window.minimize()
-    except Exception as e:
-        print_red("hide_window",e)
-        pass
+    if config_data['auto_hide'] == 'on':
+        try:
+            # 等待一段时间，确保窗口已经打开
+            time.sleep(1)
+            # 获取当前窗口的位置和大小
+            window = pyautogui.getWindowsWithTitle('lightspeed.py')[0]
+            # 模拟按下窗口最小化按钮
+            window.minimize()
+        except Exception as e:
+            print_red("hide_window",e)
+            pass
 
 def show_notification(title,message):
-    if config_notifiction == 'on':
+    if config_data['notifiction'] == 'on':
         notification.notify(
             title=title,
             message=message,
@@ -191,8 +197,7 @@ def show_notification(title,message):
 # --------------------------------------------------------------------------------
 
 if __name__ == "__main__":
-    load_json_config()
-    loop_add_hotkey()
+    reload_all()
     first_run = False
     hide_window()
     # keyboard.add_abbreviation("11", "john@stackabuse.com")
