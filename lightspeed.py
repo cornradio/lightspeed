@@ -246,5 +246,5 @@ if __name__ == "__main__":
         ticker += 1
         if ticker% 10 == 0:
             ticker2 += 1
-            print("\r "+"-"*(ticker2%44)+f"<UwU>"+"-"*(44-ticker2%44),end="")
+            print("\r "+"-"*(ticker2%45)+f"[{str(ticker2%60).zfill(2)}]"+"-"*(45-ticker2%45),end="")
     keyboard.wait()
