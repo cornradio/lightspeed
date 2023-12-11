@@ -79,6 +79,7 @@ but the `config.json`  must be in the program start folder
 - [x] support custom hotkeys like add [Q] to the start of the lnk name to open it with `number + q`
 - [x] support config file -- quick input -- quick typer!
 - [x] gui for keymap viewing -- i think view it in terminal is just fine 
+- [x] fix stuck problem , 阻塞主进程 , maybe os.Popen() is the problem 
 - [ ] more features for config file
 
 

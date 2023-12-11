@@ -17,7 +17,8 @@ class lightspeed_obj:
 
     def start_program(self):
         '''打开程序'''
-        os.popen(self.path)
+        # os.popen(self.path) # 会阻塞主进程
+        subprocess.Popen(self.path, shell=True,stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         
     def open_or_activate(self):
         '''打开或激活窗口'''
