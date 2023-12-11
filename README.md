@@ -57,9 +57,11 @@ script will auto generated `assests\config.json`
 ```
 {
     "folder_root_path": "",
-    "open_floder_key": "/",
-    "notifiction": "on",
-    "hint": "you can define folder_root_path , like c:\\quick_keys\\, or leave it empty"
+    "notifiction": "off",
+    "auto_hide": "off",
+    "open_floder_key": "enter",
+    "reload_key": "ctrl+f12",
+    "open_config_key": "ctrl+shift+f12"
 }
 ```
 
