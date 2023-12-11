@@ -2,11 +2,13 @@ import os
 import keyboard
 import subprocess
 import json
-from console_color_writer import *
-from datetime import datetime
 import pyautogui
 import time
+from console_color_writer import *
+from datetime import datetime
 from plyer import notification
+from playsound import playsound
+
 
 class lightspeed_obj:
     def __init__(self, title, path, hotkeystr):
@@ -23,21 +25,11 @@ class lightspeed_obj:
         creation_flags = DETACHED_PROCESS | CREATE_NEW_PROCESS_GROUP
         subprocess.Popen(self.path, shell=True, creationflags=creation_flags)
         # process = subprocess.Popen(self.path, shell=True,stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        
-    # def open_or_activate1(self):
-    #     '''打开或激活窗口'''
-    #     show_notification(self.hotkeystr,self.title)
-    #     windows = gw.getWindowsWithTitle(self.title)
-    #     if len(windows) > 0:
-    #         for window in windows:
-    #             window.minimize()
-    #             window.show()
-    #     else:
-    #         self.start_program()
 
     def open_or_activate(self):
         '''打开或激活窗口'''
         show_notification(self.hotkeystr,self.title)
+        play_sound()
         windows = pyautogui.getWindowsWithTitle(self.title)
         if len(windows) > 0:
             for window in windows:
@@ -65,8 +57,9 @@ config_data = {
     "open_floder_key": "enter",
     "notifiction": "on",
     "auto_hide": "on",
+    "playsound": "off",
     "reload_key": "ctrl+f12",
-    "open_config_key": "ctrl+shift+f12"
+    "open_config_key": "ctrl+shift+f12",
 }
 
 def try_create_config():
@@ -127,6 +120,7 @@ def handle_hotkey_number_enter(name):
 def open_folder(folder_path):
     '''打开文件夹'''
     show_notification("open folder",folder_path)
+    play_sound()
     # windows = gw.getWindowsWithTitle(folder_path)
     # if folder_path == "0":
     #     subprocess.run(['explorer', folder_path]) # 本来打算如果开启1的时候就强制打开。因为很多界面名字都叫1，可能需要让文件夹改名
@@ -185,7 +179,7 @@ def reload_all():
     keyboard.add_hotkey(config_data['open_config_key'], open_folder , args=[f"{os.getcwd()}\\{config_path}"]) # 打开config快捷键
     print_white("reload:",f"{config_data['reload_key']}")
     print_white("edit config:",f"{config_data['open_config_key']}")
-    
+    play_sound()
 
 def hide_window():
     '''隐藏窗口'''
@@ -210,7 +204,7 @@ def check_if_running():
             return
         else:
             exit()
-
+# notify --------------------------------------------------------------------------------
 
 def show_notification(title,message):
     if config_data['notifiction'] == 'on':
@@ -219,8 +213,13 @@ def show_notification(title,message):
             message=message,
             app_name='lightspeed.py',
             app_icon='',
-            timeout=10,
+            timeout=0.3,
         )
+        
+def play_sound():
+    if config_data['playsound'] == 'on':
+        sound_file=rf"{os.getcwd()}\assests\effect2.wav"
+        playsound(sound_file)
     
     
 # --------------------------------------------------------------------------------
