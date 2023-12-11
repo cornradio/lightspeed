@@ -58,6 +58,7 @@ script will auto generated `assests\config.json`
 {
     "folder_root_path": "",
     "open_floder_key": "/",
+    "notifiction": "on",
     "hint": "you can define folder_root_path , like c:\\quick_keys\\, or leave it empty"
 }
 ```
@@ -78,6 +79,8 @@ script will auto generated `assests\config.json`
 - [x] gui for keymap viewing -- i think view it in terminal is just fine 
 - [x] fix stuck problem , 阻塞主进程 , maybe os.Popen() is the problem 
 - [x] easy add a desktop icon shortcut using `create_shortcut.bat`
+- [ ] add sound effect when opening
+- [ ] add visual effect when opening
 - [ ] more features for config file
 
 

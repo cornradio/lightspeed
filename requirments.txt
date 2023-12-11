@@ -2,3 +2,4 @@ keyboard
 pygetwindow
 pyautogui
 console_color_writer
+plyer

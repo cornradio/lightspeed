@@ -7,6 +7,7 @@ from console_color_writer import *
 from datetime import datetime
 import pyautogui
 import time
+from plyer import notification
 
 class lightspeed_obj:
     def __init__(self, title, path, hotkeystr):
@@ -22,6 +23,7 @@ class lightspeed_obj:
         
     def open_or_activate(self):
         '''打开或激活窗口'''
+        show_notification(self.hotkeystr,self.title)
         windows = gw.getWindowsWithTitle(self.title)
         if len(windows) > 0:
             for window in windows:
@@ -47,6 +49,8 @@ class lightspeed_obj:
 config_path = "assests/config.json"
 folder_root_path = f""
 config_open_floder_key = 'enter'
+config_notifiction = 'on'
+
 
 def try_create_config():
     try:
@@ -56,6 +60,7 @@ def try_create_config():
         config_data = {
             "folder_root_path": "",
             "open_floder_key": "enter",
+            "notifiction": "on",
             "hint": "you can define folder_root_path , like c:\\quick_keys\\, or leave it empty"
         }
     with open(config_path, "w", encoding='utf-8') as file:
@@ -70,6 +75,8 @@ def load_json_config():
     gofolder_root_path = json_config["folder_root_path"]
     global config_open_floder_key
     config_open_floder_key = json_config["open_floder_key"]
+    global config_notifiction
+    config_notifiction = json_config["notifiction"]
 
 # --------------------------------------------------------------------------------
 
@@ -94,7 +101,8 @@ def handle_hotkey_number_enter(name):
 
 def open_folder(folder_path):
     '''打开文件夹'''
-    windows = gw.getWindowsWithTitle(folder_path)
+    show_notification("open folder",folder_path)
+    # windows = gw.getWindowsWithTitle(folder_path)
     # if folder_path == "0":
     #     subprocess.run(['explorer', folder_path]) # 本来打算如果开启1的时候就强制打开。因为很多界面名字都叫1，可能需要让文件夹改名
     # elif len(windows) > 0:
@@ -159,6 +167,16 @@ def hide_window():
     except Exception as e:
         print_red("hide_window",e)
         pass
+
+def show_notification(title,message):
+    if config_notifiction == 'on':
+        notification.notify(
+            title=title,
+            message=message,
+            app_name='lightspeed.py',
+            app_icon='',
+            timeout=10,
+        )
     
     
 # --------------------------------------------------------------------------------
