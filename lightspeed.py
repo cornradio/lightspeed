@@ -204,9 +204,9 @@ def hide_window():
 def check_if_running():
     window = pyautogui.getWindowsWithTitle('lightspeed.py')
     if len(window) > 1:
-        print_yellow("info","lightspeed.py is already running")
+        print_yellow_tag("info","another lightspeed.py might running")
         x = input(' sure you want to run this? [y/n]')
-        if x == 'y':
+        if x == 'y' or x =="":
             return
         else:
             exit()
