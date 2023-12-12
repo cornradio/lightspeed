@@ -231,9 +231,13 @@ def show_notification(title,message):
         )
         
 def play_sound():
-    if config_data['playsound'] == 'on':
-        sound_file=f"{os.getcwd()}\\assests\\"+config_data['soundeffect']
-        playsound(sound_file)
+    try:
+        if config_data['playsound'] == 'on':
+            sound_file=f"{os.getcwd()}\\assests\\"+config_data['soundeffect']
+            playsound(sound_file)
+    except Exception as e:
+        print_red("play_sound",e)
+        pass
 
 def blind_test():
     sound_file=f"{os.getcwd()}\\assests\\effect2.wav"
