@@ -69,7 +69,6 @@ config_data = {
     "soundeffect": "effect2.wav",
     "reload_key": "ctrl+f12",
     "open_config_key": "ctrl+shift+f12",
-    "blind_test_key": "ctrl+shift+f11",
 }
 
 def try_create_config():
@@ -187,12 +186,10 @@ def reload_all():
     loop_add_hotkey()
     keyboard.add_hotkey(config_data['reload_key'], reload_all) # 重载快捷键
     keyboard.add_hotkey(config_data['open_config_key'], open_folder , args=[f"{os.getcwd()}\\{config_path}"]) # 打开config快捷键
-    keyboard.add_hotkey(config_data['blind_test_key'], blind_test ) # 打开config快捷键
     
     
     print_white("reload:",f"{config_data['reload_key']}")
     print_white("edit config:",f"{config_data['open_config_key']}")
-    print_white("blind test:",f"{config_data['blind_test_key']}")
     play_sound()
 
 def hide_window():
@@ -200,7 +197,7 @@ def hide_window():
     if config_data['auto_hide'] == 'on':
         try:
             # 等待一段时间，确保窗口已经打开
-            time.sleep(1)
+            time.sleep(0.1)
             # 获取当前窗口的位置和大小
             window = pyautogui.getWindowsWithTitle('lightspeed.py')[0]
             # 模拟按下窗口最小化按钮
@@ -239,10 +236,6 @@ def play_sound():
         print_red("play_sound",e)
         pass
 
-def blind_test():
-    sound_file=f"{os.getcwd()}\\assests\\effect2.wav"
-    playsound(sound_file)
-
 # --------------------------------------------------------------------------------
 
 if __name__ == "__main__":
@@ -257,8 +250,8 @@ if __name__ == "__main__":
     while True:
         time.sleep(0.1)
         ticker += 1
-        if ticker% 10 == 0:
+        if ticker% 6 == 0:
             ticker2 += 1
-            print("\r key waiting"+str("."*(ticker2%5)+' '*(5-ticker2%5)),end="")
+            print("\r key waiting"+str("."*(ticker2%3+1)+" "*5),end="")
             # print("\r "+"-"*(ticker2%45)+f"[{str(ticker2%60).zfill(2)}]"+"-"*(45-ticker2%45),end="")
     keyboard.wait()
