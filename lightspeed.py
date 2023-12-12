@@ -13,18 +13,26 @@ from playsound import playsound
 class lightspeed_obj:
     def __init__(self, title, path, hotkeystr):
         self.title = title
-        self.path = path
         self.hotkeystr = hotkeystr
         self.hotkey = self.set_hotkey()
+        # initpath
+        if config_data['folder_root_path'] == "":
+            self.path = os.getcwd() + "\\" + path
+        else:
+            self.path = path
 
     def start_program(self):
         '''打开程序'''
-        # 使用 subprocess.Popen 或者类似功能 关闭主程序后 Popen的程序不消失
-        DETACHED_PROCESS = 0x00000008
-        CREATE_NEW_PROCESS_GROUP = 0x00000200
-        creation_flags = DETACHED_PROCESS | CREATE_NEW_PROCESS_GROUP
-        subprocess.Popen(self.path, shell=True, creationflags=creation_flags)
-        # process = subprocess.Popen(self.path, shell=True,stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        try:
+            creation_flags = subprocess.DETACHED_PROCESS | subprocess.CREATE_NEW_PROCESS_GROUP |subprocess.CREATE_BREAKAWAY_FROM_JOB
+            # subprocess.STARTUPINFO
+            subprocess.Popen(self.path, shell=True, creationflags=creation_flags,stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            # subprocess.Popen(self.path, shell=True,stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            # os.startfile(self.path)
+            # process = subprocess.Popen(self.path, shell=True,stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        except Exception as e:
+            print_red("start_program",e)
+            pass
 
     def open_or_activate(self):
         '''打开或激活窗口'''
@@ -246,5 +254,6 @@ if __name__ == "__main__":
         ticker += 1
         if ticker% 10 == 0:
             ticker2 += 1
-            print("\r "+"-"*(ticker2%45)+f"[{str(ticker2%60).zfill(2)}]"+"-"*(45-ticker2%45),end="")
+            print("\r key waiting"+str("."*(ticker2%5)+' '*(5-ticker2%5)),end="")
+            # print("\r "+"-"*(ticker2%45)+f"[{str(ticker2%60).zfill(2)}]"+"-"*(45-ticker2%45),end="")
     keyboard.wait()

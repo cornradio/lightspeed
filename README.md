@@ -81,13 +81,15 @@ script will auto generated `assests\config.json`
 - [x] gui for keymap viewing -- i think view it in terminal is just fine 
 - [x] fix stuck problem , 阻塞主进程 , maybe os.Popen() is the problem 
 - [x] easy add a desktop icon shortcut using `create_shortcut.bat`
-- [ ] add sound effect when opening
-- [ ] add visual effect when opening
+- [x] add sound effect when opening
+- [x] add visual effect when opening
 - [ ] more features for config file
 
-
+## bugs
+- [ ] after open `微信` and login , program will stuck , might `微信` have some kind of protection? 
+- [x] the only way around is open `微信` first , then open `lightspeed` , but this is not a good solution
 - [ ] support fucking `\u200b` for ms edge , dude , why microsoft choose this wired utf8 character in title?
-- [ ] package and post on **pypi** -- having a infinate loop , why? can't figure out .
+- [ ] package and post on **pypi** -- having a infinate loop , why?  
 
 <!-- # upload
 > make sure have twine installed first
