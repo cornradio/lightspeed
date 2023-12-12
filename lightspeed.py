@@ -66,6 +66,7 @@ config_data = {
     "notifiction": "on",
     "auto_hide": "on",
     "playsound": "off",
+    "soundeffect": "effect2.wav",
     "reload_key": "ctrl+f12",
     "open_config_key": "ctrl+shift+f12",
     "blind_test_key": "ctrl+shift+f11",
@@ -231,7 +232,7 @@ def show_notification(title,message):
         
 def play_sound():
     if config_data['playsound'] == 'on':
-        sound_file=f"{os.getcwd()}\\assests\\effect2.wav"
+        sound_file=f"{os.getcwd()}\\assests\\"+config_data['soundeffect']
         playsound(sound_file)
 
 def blind_test():
