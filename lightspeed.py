@@ -14,12 +14,12 @@ class lightspeed_obj:
     def __init__(self, title, path, hotkeystr):
         self.title = title
         self.hotkeystr = hotkeystr
-        self.hotkey = self.set_hotkey()
         # initpath
         if config_data['folder_root_path'] == "":
             self.path = os.getcwd() + "\\" + path
         else:
             self.path = path
+        self.hotkey = self.set_hotkey()
 
     def start_program(self):
         '''打开程序'''
@@ -45,6 +45,7 @@ class lightspeed_obj:
                 window.restore()
         else:
             self.start_program()
+            
     def myopen(self):
        self.open_or_activate()
        print_green(f"\r{datetime.now().strftime(time_format)}",f"{self.hotkeystr} -- open or activate [{self.title}]")
@@ -53,6 +54,7 @@ class lightspeed_obj:
     def set_hotkey(self):
         print_yellow(f"{self.hotkeystr}",f"{self.title}")
         return keyboard.add_hotkey(self.hotkeystr,self.myopen)
+        
 
     def __str__(self):
         return f"lightspeed_obj: {self.name} {self.path} {self.hotkeystr}"
@@ -154,12 +156,10 @@ def load_folder_hotkey(name):
         else:# 如果有中文（不支持添加快捷键）
             print_red('nope',file)
             continue
-            # hotkey = f'{name}+' + '/' #file[0].upper()
-        title = file.replace('.lnk', '').replace(' - 快捷方式', '').replace(' - 副本', '') # todo needed english version 
-        #  custom hotkeys like add [Q]
         if file.startswith('['):
             hotkey =  f'{name}+'+ file[1].upper()
             file = file[3:]
+        title = file.replace('.lnk', '').replace(' - 快捷方式', '').replace(' - 副本', '') # todo needed english version 
         lightspeed_obj_list.append(lightspeed_obj(title, filepath, hotkey))
 
 def loop_add_hotkey():
@@ -191,6 +191,9 @@ def reload_all():
     print_white("reload:",f"{config_data['reload_key']}")
     print_white("edit config:",f"{config_data['open_config_key']}")
     play_sound()
+    if not first_run:
+        show_notification(f"{config_data['reload_key']}","reloaded")
+    
 
 def hide_window():
     '''隐藏窗口'''
