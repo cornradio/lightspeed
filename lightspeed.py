@@ -167,7 +167,7 @@ def loop_add_hotkey():
     if first_run:
         print("loading...")
     else:
-        keyboard.remove_all_hotkeys()
+        keyboard.unhook_all_hotkeys()
         # for lightspeed_obj in lightspeed_obj_list:
         #     keyboard.remove_hotkey(lightspeed_obj.hotkey)
         #     lightspeed_obj = None
@@ -248,13 +248,14 @@ if __name__ == "__main__":
     hide_window()
     # keyboard.add_abbreviation("11", "john@stackabuse.com")
     # 监听快捷键事件
-    ticker = 0
-    ticker2 = 0
     while True:
         time.sleep(0.1)
-        ticker += 1
-        if ticker% 6 == 0:
-            ticker2 += 1
-            print("\r key waiting"+str("."*(ticker2%3+1)+" "*5),end="")
-            # print("\r "+"-"*(ticker2%45)+f"[{str(ticker2%60).zfill(2)}]"+"-"*(45-ticker2%45),end="")
-    keyboard.wait()
+        print_yellow("Press Enter at here to [HARD reload]")
+        x= input()
+        if x == "":
+            print_cyan("hard reload")
+            creation_flags = subprocess.DETACHED_PROCESS | subprocess.CREATE_NEW_PROCESS_GROUP |subprocess.CREATE_BREAKAWAY_FROM_JOB
+            subprocess.Popen("py lightspeed.py", shell=True, creationflags=creation_flags,stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            exit()
+        # print("\r key waiting"+str("."*(ticker2%3+1)+" "*5),end="")
+        # print("\r "+"-"*(ticker2%45)+f"[{str(ticker2%60).zfill(2)}]"+"-"*(45-ticker2%45),end="")
