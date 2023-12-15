@@ -3,56 +3,48 @@ lightspeed is a `hotkey launcher` written in python
 
  (inspired by Power Keys: https://powerkeys.github.io/)
 
+only support windows 
 
-
-only support windows for now , sorry mac and linux users , i will try to make it cross platform in the future
+the key feature is `speed` and  `wakeup`, wake up the program if it's already running , or open it if it's not running.  
 
 ## install
 requirements
 ```
 pip install -r requirements.txt
 ```
-run ( run in unimportant floder ,this script will create 9 floders and 1 config file 😥) 
+run ( run in unimportant floder , script will create floders and config file 😥) 
 ```
 python lightspeed.py
 ```
 
 after testing , `create_shortcut.bat` can help u create a desktop shortcut . 
 
-and you can put it in `shell:startup` to run it at startup .
+and you can put the shortcut in `shell:startup` to run it at startup .
+
+> icon from https://www.macosicongallery.com/
+
+![Imgur](https://i.imgur.com/oVTExMh.png)
 
 ## quick start
 
-![Imgur](https://i.imgur.com/9wYUkGS.png)
-
 1. `1 ~ 9 + enter` to open the lightspeed folder 
-2. `1 ~ 9 + first letter` of the lnk name to open the lnk file (windows shortcut file) , e.g. `1 + c` to open chrome)
-3. `ctrl F12` to reload the hotkeys (in case you add new files)
-4. just `alt + drag` to create new lnk files, dont change name of the lnk files ,script uses name to decide to reopen or wake up program
+2. put whatever you want in the folder , then reload hotkey ,
+3. now you can open it with `1 ~ 9 + first letter` :
+4. use `hard reload` when stuck
+![Imgur](https://i.imgur.com/aeDuuGW.png)
 
-## cool
-speed is insine ,  i can't even see the window pop up
-
-https://i.imgur.com/vroF1F1.gif
-
-<a href="https://imgur.com/vroF1F1"><img src="https://i.imgur.com/vroF1F1.gif" title="source: imgur.com" /></a>
 
 ##  change the hotkey
-
-you see this is pretty floder based ....
-just use `1 ~ 9 + enter` to open the folder , put whatever you want in the folder
-
 
 e.g. `1 + c` to open chrome , 
 
 change `chrome.lnk` to`[x]chrome.lnk` , then you can use `1 + X` to open chrome now
 
-it's easy to understand
-
+other hotkey like `ctrl + shift + f12` to open config file , can be change in `assests\config.json`
 
 ## config
 
-script will auto generated `assests\config.json`  
+script will auto generated `assests\config.json`  at first run 
 
 ```
 {
@@ -66,11 +58,22 @@ script will auto generated `assests\config.json`
 ```
 
 > config file will be added more features in the future
-> 
-> eg . input @@ for emailaddress , or choose a hotkey u want  for input 
+
+## speed test
+speed is insine ,  i can't even see the window pop up
+
+https://i.imgur.com/vroF1F1.gif
+
+<a href="https://imgur.com/vroF1F1"><img src="https://i.imgur.com/vroF1F1.gif" title="source: imgur.com" /></a>
 
 
-## progress 
+---
+
+# development
+
+## features 
+100% 
+
 - [x] create floders
 - [x] create shortcuts for folders 1 ~ 9
 - [x] read lnk files and create shortcuts
@@ -79,15 +82,13 @@ script will auto generated `assests\config.json`
 - [x] support custom hotkeys like add [Q] to the start of the lnk name to open it with `number + q`
 - [x] support config file -- quick input -- quick typer!
 - [x] gui for keymap viewing -- i think view it in terminal is just fine 
-- [x] fix stuck problem , 阻塞主进程 , maybe os.Popen() is the problem 
+- [x] fix stuck problem , added os.Popen() flag for start a "real process" , not a "sub process"
+- [x] add sound effect when opening -- added , not perfect , I highly recommend you to turn it off
+- [x] add visual effect when opening -- added windwos notification
 - [x] easy add a desktop icon shortcut using `create_shortcut.bat`
-- [x] add sound effect when opening
-- [x] add visual effect when opening
-- [ ] more features for config file
 
 ## bugs
-- [ ] after open `微信` and login , program will stuck , might `微信` have some kind of protection? 
-- [x] the only way around is open `微信` first , then open `lightspeed` , but this is not a good solution
+- [x] after open `微信` and login , program will stuck -- added `hard reload` function
 - [ ] support fucking `\u200b` for ms edge , dude , why microsoft choose this wired utf8 character in title?
 - [ ] package and post on **pypi** -- having a infinate loop , why?  
 
