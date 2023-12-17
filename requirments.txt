@@ -1,5 +1,2 @@
-keyboard
 pyautogui
 console_color_writer
-plyer
-playsound

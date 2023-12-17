@@ -7,6 +7,17 @@ only support windows
 
 the key feature is `speed` and  `wakeup`, wake up the program if it's already running , or open it if it's not running.  
 
+## news
+i compeletely change how thing work
+
+now lightspeed.py is only a script to generate `ahk` script , and run it
+
+ahk is more reliable than python (when comes to hotkeys) , and it's faster
+
+--- 
+
+u can still use `lightspeed_old.py` to run the python based program 
+
 ## install
 requirements
 ```
@@ -86,6 +97,7 @@ https://i.imgur.com/vroF1F1.gif
 - [x] add sound effect when opening -- added , not perfect , I highly recommend you to turn it off
 - [x] add visual effect when opening -- added windwos notification
 - [x] easy add a desktop icon shortcut using `create_shortcut.bat`
+- [ ] 用py监听快捷键好像是个坏主意，我想可以试试看，用py脚本生成ahk代码，然后再运行ahk脚本，这样就不用担心快捷键冲突的问题了
 
 ## bugs
 - [x] after open `微信` and login , program will stuck -- added `hard reload` function
