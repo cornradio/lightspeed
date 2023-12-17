@@ -160,8 +160,15 @@ def init_ahk():
     if os.path.exists("lightspeed.ahk"):
         os.remove("lightspeed.ahk")
     content = '''
+#NoTrayIcon
+#+x::
+MsgBox, "Exit Lightspeed"
+ExitApp
+Return
+
 #IfWinActive, ahk_class WorkerW
 #IfWinActive, ahk_class Shell_TrayWnd
+
 SetTitleMatchMode, 2
 open_or_activate(title,path)
 {
