@@ -160,7 +160,7 @@ def init_ahk():
     if os.path.exists("lightspeed.ahk"):
         os.remove("lightspeed.ahk")
     content = '''
-#If WinActive("ahk_class Shell_TrayWnd") or WinActive("ahk_class Shell_SecondaryTrayWnd") or WinActive("ahk_class WorkerW") 
+#If WinActive("ahk_class Shell_TrayWnd") or WinActive("ahk_class Shell_SecondaryTrayWnd") or WinActive("ahk_class WorkerW")  or WinActive("ahk_class Progman")
 
 SetTitleMatchMode, 2
 open_or_activate(title,path)
