@@ -1,48 +1,42 @@
 # lightspeed
-lightspeed is a `hotkey launcher` written in python
+lightspeed is a `hotkey launcher` written in python.
 
- (inspired by Power Keys: https://powerkeys.github.io/)
+Put shortcuts in quick floders 1~9 (quick floders will generate by first run)
 
-only support windows 
+![Imgur](https://i.imgur.com/4OSyWob.png)
 
-the key feature is `speed` and  `wakeup`, wake up the program if it's already running , or open it if it's not running.  
+Start `lightspeed.py` will generate and run `lightspeed.ahk`
 
-## news
-i compeletely change how thing work
+![Imgur](https://i.imgur.com/lj1ZFxH.png)
 
-now lightspeed.py is only a script to generate `ahk` script , and run it
+Use short cut when on desktop or task bar ~
 
-ahk is more reliable than python (when comes to hotkeys) , and it's faster
+![Imgur](https://i.imgur.com/PiBOKGX.png)
 
---- 
+---
 
-u can still use `lightspeed_old.py` to run the python based program 
 
-## install
-requirements
-```
-pip install -r requirements.txt
-```
-run ( run in unimportant floder , script will create floders and config file 😥) 
-```
-python lightspeed.py
-```
 
-after testing , `create_shortcut.bat` can help u create a desktop shortcut . 
+After first start , program will create quick floders 1~9;
 
-and you can put the shortcut in `shell:startup` to run it at startup .
+Use `1~9`+ `enter` hotkey to open quick floders , and alt+drag any shourtcut in "quick floder". 
 
-> icon from https://www.macosicongallery.com/
+Then restart `lightspeed.py` , now you can try hotkeys.
 
-![Imgur](https://i.imgur.com/oVTExMh.png)
-
-## quick start
-
-1. `1 ~ 9 + enter` to open the lightspeed folder 
-2. put whatever you want in the folder , then reload hotkey ,
-3. now you can open it with `1 ~ 9 + first letter` :
-4. use `hard reload` when stuck
 ![Imgur](https://i.imgur.com/aeDuuGW.png)
+
+# how to use
+1. install [python 3](https://www.python.org/downloads/)  and [autohotkey](https://www.autohotkey.com/)
+2. install  pip packages using ：`pip install -r requirements.txt`
+3. run `py lightspeed.py` , will generate `lightspeed.ahk` and auto run it.
+
+# Hints
+
+`create_shortcut.bat` can help u create a desktop shortcut .
+
+Highly recommand u use different floders for different purpose , like 1 for chatting , 2 for tools , 3 for files etc.
+
+after update , python go stuck may cause of `assests\config.json` not right , delete it.
 
 
 ##  change the hotkey
@@ -57,6 +51,8 @@ other hotkey like `ctrl + shift + f12` to open config file , can be change in `a
 
 script will auto generated `assests\config.json`  at first run 
 
+edit config in vscode and restart will take effects 
+
 ```
 {
     "folder_root_path": "",
@@ -68,46 +64,3 @@ script will auto generated `assests\config.json`  at first run
 }
 ```
 
-> config file will be added more features in the future
-
-## speed test
-speed is insine ,  i can't even see the window pop up
-
-https://i.imgur.com/vroF1F1.gif
-
-<a href="https://imgur.com/vroF1F1"><img src="https://i.imgur.com/vroF1F1.gif" title="source: imgur.com" /></a>
-
-
----
-
-# development
-
-## features 
-100% 
-
-- [x] create floders
-- [x] create shortcuts for folders 1 ~ 9
-- [x] read lnk files and create shortcuts
-- [x] reload shortcuts 
-- [x] fix stuck problem , still don't know why (fixed , it because my ahk alt Q have a flaw)
-- [x] support custom hotkeys like add [Q] to the start of the lnk name to open it with `number + q`
-- [x] support config file -- quick input -- quick typer!
-- [x] gui for keymap viewing -- i think view it in terminal is just fine 
-- [x] fix stuck problem , added os.Popen() flag for start a "real process" , not a "sub process"
-- [x] add sound effect when opening -- added , not perfect , I highly recommend you to turn it off
-- [x] add visual effect when opening -- added windwos notification
-- [x] easy add a desktop icon shortcut using `create_shortcut.bat`
-- [ ] 用py监听快捷键好像是个坏主意，我想可以试试看，用py脚本生成ahk代码，然后再运行ahk脚本，这样就不用担心快捷键冲突的问题了
-
-## bugs
-- [x] after open `微信` and login , program will stuck -- added `hard reload` function
-- [ ] support fucking `\u200b` for ms edge , dude , why microsoft choose this wired utf8 character in title?
-- [ ] package and post on **pypi** -- having a infinate loop , why?  
-
-<!-- # upload
-> make sure have twine installed first
-
-1. change `setup.py`
-2. testing `py setup.py develop`
-3. `py setup.py sdist`
-4. `twine upload dist/*`33rrrr如1d1d -->
