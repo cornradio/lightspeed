@@ -26,8 +26,8 @@ Then restart `lightspeed.py` , now you can try hotkeys.
 ![Imgur](https://i.imgur.com/aeDuuGW.png)
 
 # how to use
-1. install [python 3](https://www.python.org/downloads/)  and [autohotkey](https://www.autohotkey.com/)
-2. install  pip packages using ：`pip install -r requirements.txt`
+1. install [python 3](https://www.python.org/downloads/)  and [autohotkey v1](https://www.autohotkey.com/)
+2. install python packages using ：`pip install -r requirements.txt`
 3. run `py lightspeed.py` , will generate `lightspeed.ahk` and auto run it.
 
 # Hints
