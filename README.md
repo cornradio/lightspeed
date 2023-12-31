@@ -5,13 +5,16 @@ Put shortcuts in quick floders 1~9 (quick floders will generate by first run)
 
 ![Imgur](https://i.imgur.com/4OSyWob.png)
 
-Start `lightspeed.py` will generate and run `lightspeed.ahk`
-
-![Imgur](https://i.imgur.com/lj1ZFxH.png)
-
 Use short cut when on desktop or task bar ~
 
 ![Imgur](https://i.imgur.com/PiBOKGX.png)
+
+---
+
+
+things behind： `lightspeed.py` will regenerate `lightspeed.ahk` , ahk handle the hotkeys
+
+![Imgur](https://i.imgur.com/lj1ZFxH.png)
 
 ---
 
