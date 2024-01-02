@@ -119,6 +119,11 @@ def create_folder(key):
 def loop_add_hotkey():
     init_ahk()
     '''循环添加快捷键'''
+    print_cyan('''
+|o _ |__|_ _._  _  _  _|
+||(_|| ||__>|_)(/_(/_(_|
+   _|       |
+''')
     print("loading...")
     for key in range(1, 10):
         create_folder(f"{key}")# 创建文件夹初始化
@@ -237,7 +242,7 @@ if __name__ == "__main__":
     # 监听快捷键事件
     while True:
         time.sleep(0.1)
-        print_yellow("hotkey only work after focus on Task Bar (win + x)")
+        print_yellow("hotkey only work after focus on Task Bar/Desktop")
         print_yellow("you can close this window now , ahk is running...")
         print_yellow("Press Enter to [reload]")
         if config_data['auto_exit'] == 'on':
@@ -245,7 +250,7 @@ if __name__ == "__main__":
         x= input()
         if x == "":
             print_cyan("hard reload")
-            runinsubprocess("lightspeed.py")
+            runinsubprocess("python lightspeed.py")
             exit()
         # print("\r key waiting"+str("."*(ticker2%3+1)+" "*5),end="")
         # print("\r "+"-"*(ticker2%45)+f"[{str(ticker2%60).zfill(2)}]"+"-"*(45-ticker2%45),end="")
