@@ -67,3 +67,10 @@ edit config in vscode and restart will take effects
 }
 ```
 
+## auto minimize
+using win11 + windows terminal , and turn on this setting:
+- 外观 - 最小化时再通知区域隐藏终端
+- 外观 - 始终再通知区域显示图标
+
+
+![Imgur](https://i.imgur.com/56q7hSf.png)
