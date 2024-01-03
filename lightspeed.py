@@ -53,13 +53,8 @@ config_path = "assests\\config.json"
 config_data = {
     "folder_root_path": "",
     "open_floder_key": "enter",
-    "notifiction": "on",
     "auto_hide": "on",
     "auto_exit": "off",
-    "playsound": "off",
-    "soundeffect": "effect2.wav",
-    "reload_key": "ctrl+f12",
-    "open_config_key": "ctrl+shift+f12",
     "open_config_key_ahk": "^+F12",
 }
 
