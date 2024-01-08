@@ -13,3 +13,5 @@ __pycache__/
 dist/
 config.json
 lightspeed.ahk
+build/
+lightspeed.spec

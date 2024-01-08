@@ -74,3 +74,6 @@ using win11 + windows terminal , and turn on this setting:
 
 
 ![Imgur](https://i.imgur.com/56q7hSf.png)
+
+## packing 
+pyinstaller --exclude=pandas  lightspeed.py
