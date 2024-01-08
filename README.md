@@ -72,8 +72,17 @@ using win11 + windows terminal , and turn on this setting:
 - 外观 - 最小化时再通知区域隐藏终端
 - 外观 - 始终再通知区域显示图标
 
+⚠️ for exe user:
+you have to make a desktop shortcut of `lightspeed.exe` , and rename it to `lightspeed.py` 
 
 ![Imgur](https://i.imgur.com/56q7hSf.png)
 
 ## packing 
-pyinstaller --exclude=pandas  lightspeed.py
+```
+pyinstaller --exclude=pandas --exclude=numpy --exclude=libcrypto --exclude=PIL  lightspeed.py
+//copy assests to dist
+xcopy assests dist\lightspeed\assests\ /e /y
+//compress \dist\lightspeed to lightspeed.zip using pwsh
+Compress-Archive -Path .\dist\lightspeed\ -DestinationPath .\lightspeed.zip -Force
+
+```

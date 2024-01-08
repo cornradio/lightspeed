@@ -15,3 +15,4 @@ config.json
 lightspeed.ahk
 build/
 lightspeed.spec
+*.zip
