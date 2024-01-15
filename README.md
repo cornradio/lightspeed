@@ -1,88 +1,49 @@
 # lightspeed
-lightspeed is a `hotkey launcher` written in python.
+for english reader , please check [README_EN.md](README_EN.md)
 
-Put shortcuts in quick floders 1~9 (quick floders will generate by first run)
+它是一个快捷键工具，可以启动/唤醒程序、打开文件夹，文件，网址，打开配置文件等。
 
-![Imgur](https://i.imgur.com/4OSyWob.png)
+lightspeed 的名字取自 “光速启动” 灵感来源于另一个快捷键工具。
 
-Use short cut when on desktop or task bar ~
+## 使用方法
 
-![Imgur](https://i.imgur.com/PiBOKGX.png)
+- 安装[ ahk v1 ](https://www.autohotkey.com/download/ahk-install.exe)
+- 下载 [release/lightspeed.exe](https://github.com/cornradio/lightspeed/releases/) 解压到任意目录，双击运行
+
+
+
+## 使用技巧
+- 程序会自动生成 1-9 文件夹
+- 鼠标点击任务栏/桌面，然后使用快捷键，没有快捷键就拖一些快捷方式到 1-9 文件夹，使用哲学看[这里](https://powerkeys.github.io/launcher.html)
+- 快捷键可以自定义，比如中文名的快捷方式，改成，比如 `[w]微信`会分配快捷键 w ,否则会不分配任何快捷键，英文的快捷方式，会自动分配快捷键为首字母
 
 ---
 
-
-things behind： `lightspeed.py` will regenerate `lightspeed.ahk` , ahk handle the hotkeys
-
-![Imgur](https://i.imgur.com/lj1ZFxH.png)
-
----
-
-
-
-After first start , program will create quick floders 1~9;
-
-Use `1~9`+ `enter` hotkey to open quick floders , and alt+drag any shourtcut in "quick floder". 
-
-Then restart `lightspeed.py` , now you can try hotkeys.
-
-![Imgur](https://i.imgur.com/aeDuuGW.png)
-
-# how to use
-1. install [python 3](https://www.python.org/downloads/)  and [autohotkey v1](https://www.autohotkey.com/)
-2. install python packages using ：`pip install -r requirements.txt`
-3. run `py lightspeed.py` , will generate `lightspeed.ahk` and auto run it.
-
-# Hints
-
-`create_shortcut.bat` can help u create a desktop shortcut .
-
-Highly recommand u use different floders for different purpose , like 1 for chatting , 2 for tools , 3 for files etc.
-
-after update , python go stuck may cause of `assests\config.json` not right , delete it.
+- 用 1-9 + enter 打开文件夹 1-9 
+- 在config中可以自定义文件夹位置
+- 一个文件夹中有重复的快捷键，会报错
+- 在命令行界面按下 enter 可以快速重载
+- 配置好 windows terminal 的 外观 - 最小化时通知区域隐藏终端 可以自动隐藏命令行界面
+ 
+## 一些截图
+![image0.png](https://img.xwyue.com/i/2024/01/15/65a52639efb9f.png)
+![image-1.png](https://img.xwyue.com/i/2024/01/15/65a5263bb336c.png)
+![image.png](https://img.xwyue.com/i/2024/01/15/65a5264396fdd.png)
 
 
-##  change the hotkey
+## 为什么要做这个工具
+因为 我是一个快捷键狂热爱好者   `:)`
 
-e.g. `1 + c` to open chrome , 
+市面上大多数快捷键启动程序只有**启动**的功能，没有“**唤醒**”的功能 （唤醒就是，如果程序已经打开，将程序窗口展示出来，而不开启新的程序实例）
 
-change `chrome.lnk` to`[x]chrome.lnk` , then you can use `1 + X` to open chrome now
+唯一我找到拥有**唤醒**功能的就是[光速启动](https://powerkeys.github.io/launcher.html)，光速启动，里面除了启动这功能之外还有不少功能，但我不使用，有的功能占用了空格键。打游戏时还要切换游戏模式非常不方便，并且光速启动需要占用空格键。
 
-other hotkey like `ctrl + shift + f12` to open config file , can be change in `assests\config.json`
+所以我做了这个工具，相当于简化版的“[光速启动](https://powerkeys.github.io/launcher.html)”。
 
-## config
+## 实现
+这个工具是用 python 写的，使用 python 创建、读取文件夹、配置文件等。并且生成一个 ahk 脚本；ahk 脚本负责监听快捷键，打开程序、文件夹、文件、网址等；并且监听程序窗口的标题，实现**唤醒**功能。
+**唤醒** 的功能也是通过ahk的标题匹配实现的
 
-script will auto generated `assests\config.json`  at first run 
+so，这个工具需要 python 和 ahk。
 
-edit config in vscode and restart will take effects 
-
-```
-{
-    "folder_root_path": "",
-    "notifiction": "off",
-    "auto_hide": "off",
-    "open_floder_key": "enter",
-    "reload_key": "ctrl+f12",
-    "open_config_key": "ctrl+shift+f12"
-}
-```
-
-## auto minimize
-using win11 + windows terminal , and turn on this setting:
-- 外观 - 最小化时再通知区域隐藏终端
-- 外观 - 始终再通知区域显示图标
-
-⚠️ for exe user:
-you have to make a desktop shortcut of `lightspeed.exe` , and rename it to `lightspeed.py` 
-
-![Imgur](https://i.imgur.com/56q7hSf.png)
-
-## packing 
-```
-pyinstaller --exclude=pandas --exclude=numpy --exclude=libcrypto --exclude=PIL  lightspeed.py
-//copy assests to dist
-xcopy assests dist\lightspeed\assests\ /e /y
-//compress \dist\lightspeed to lightspeed.zip using pwsh
-Compress-Archive -Path .\dist\lightspeed\ -DestinationPath .\lightspeed.zip -Force
-
-```
+幸运的是,目前我已经把这个工具打包成了 exe 文件，所以不需要安装 python 也可以使用，但是仍然需要自行安装 ahk v1。
