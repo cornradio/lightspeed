@@ -64,6 +64,9 @@ def try_create_config():
         with open(config_path, encoding='utf-8') as file:
             tmp = json.load(file)
     except FileNotFoundError:
+        # 如果文件夹不存在，创建文件夹
+        if not os.path.exists("assests"):
+            os.makedirs("assests")
         with open(config_path, "w", encoding='utf-8') as file:
             json.dump(config_data, file, indent=4)
             print("created config.json")
@@ -202,7 +205,10 @@ def hide_window():
             # 等待一段时间，确保窗口已经打开
             time.sleep(0.1)
             # 获取当前窗口的位置和大小
-            window = pyautogui.getWindowsWithTitle('lightspeed.py')[0]
+            if os.path.exists("lightspeed.py"):
+                window = pyautogui.getWindowsWithTitle('lightspeed.py')[0]
+            else:
+                window = pyautogui.getWindowsWithTitle('lightspeed')[0]
             # 模拟按下窗口最小化按钮
             window.minimize()
         except Exception as e:
@@ -245,7 +251,11 @@ if __name__ == "__main__":
         x= input()
         if x == "":
             print_cyan("hard reload")
-            runinsubprocess("python lightspeed.py")
+            # 检查是否存在lightspeed.py 如果存在，启动python ，如果不存在 启动exe
+            if os.path.exists("lightspeed.py"):
+                runinsubprocess("python lightspeed.py")
+            else:
+                runinsubprocess("lightspeed.exe")
             exit()
         # print("\r key waiting"+str("."*(ticker2%3+1)+" "*5),end="")
         # print("\r "+"-"*(ticker2%45)+f"[{str(ticker2%60).zfill(2)}]"+"-"*(45-ticker2%45),end="")
