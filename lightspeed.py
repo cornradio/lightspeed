@@ -155,6 +155,9 @@ def load_folder_hotkey(name):
         if file.startswith('['):
             hotkey =  f'{name} & '+ file[1].lower()
             file = file[3:]
+        if file.startswith('【'):
+            hotkey =  f'{name} & '+ file[1].lower()
+            file = file[3:]
         title = file.replace('.lnk', '').replace(' - 快捷方式', '').replace(' - 副本', '')  
         lightspeed_obj_list.append(lightspeed_obj(title, filepath, hotkey))
         
@@ -220,7 +223,7 @@ def check_if_running():
     if len(window) > 1:
         print_yellow_tag("info","another lightspeed.py might running")
         x = input(' sure you want to run this? [y/n]')
-        if x == 'y' or x =="":
+        if x == 'y' or x =="" or x:
             return
         else:
             exit()
@@ -232,7 +235,7 @@ def runinsubprocess(thing):
 # --------------------------------------------------------------------------------
 
 if __name__ == "__main__":
-    check_if_running()
+    # check_if_running()
     reload_all()
     first_run = False
     hide_window()
@@ -243,8 +246,8 @@ if __name__ == "__main__":
     # 监听快捷键事件
     while True:
         time.sleep(0.1)
-        print_yellow("hotkey only work after focus on Task Bar/Desktop")
-        print_yellow("you can close this window now , ahk is running...")
+        print_yellow("1. focus on Task Bar/Desktop")
+        print_yellow("2. USE HOTKEYS")
         print_yellow("Press Enter to [reload]")
         if config_data['auto_exit'] == 'on':
             exit()
