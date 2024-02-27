@@ -120,10 +120,9 @@ def loop_add_hotkey():
     print_cyan('''
 |o _ |__|_ _._  _  _  _|
 ||(_|| ||__>|_)(/_(/_(_|
-   _|       |
+   _|       |           
 ''')
-    print("loading...")
-    for key in range(1, 10):
+    for key in range(0, 10):
         create_folder(f"{key}")# 创建文件夹初始化
         load_folder_hotkey(f"{key}")# 加载文件夹内快捷方式快捷键
         # 多行字符串
@@ -132,7 +131,8 @@ def loop_add_hotkey():
             path = os.getcwd() + "\\" + path
         content = f'''
 {str(key)} & {config_data['open_floder_key']}::
-Run, "{path+str(key)}"
+Run, "{path+str(key)}" 
+ShowAndHideText({str(key)} floder, 600)
 return
 '''
         write_ahk(content)
@@ -166,11 +166,33 @@ def init_ahk():
     if os.path.exists("lightspeed.ahk"):
         os.remove("lightspeed.ahk")
     content = '''
-#If WinActive("ahk_class Shell_TrayWnd") or WinActive("ahk_class Shell_SecondaryTrayWnd") or WinActive("ahk_class WorkerW")  or WinActive("ahk_class Progman")
+#If WinActive("ahk_class Shell_TrayWnd") or WinActive("ahk_class Shell_SecondaryTrayWnd") or WinActive("python  lightspeed.py") or WinActive("ahk_class WorkerW")  or WinActive("ahk_class Progman")
 
 SetTitleMatchMode, 2
+
+ShowAndHideText(text, duration) {
+    Gui, +LastFound +AlwaysOnTop -Caption
+    WinSet, Transparent, 150 ; 0 is fully transparent, 255 is fully opaque
+    ; WinSet, Region, 0-0 %A_ScreenWidth%-0 %A_ScreenWidth%x%A_ScreenHeight%
+    
+    Gui, Color, 000000 ; 设置背景颜色为黑色
+    Gui, Font, s15, Arial ; 设置字体大小为20    
+    ; 获取文本的宽度和高度
+    textWidth := 400
+    textHeight := 40
+    winX := 0
+    winY := 20
+    
+    Gui, Add, Text, x%winX% y%winY% w%textWidth% h%textHeight% cFFFFFF Center, %text%
+    Gui, Show, NA
+    Sleep, %duration%
+    Gui, Destroy
+}
+
+
 open_or_activate(title,path)
 {
+    ShowAndHideText(title, 600)
     if (WinExist(title))
     {
         WinActivate, %title% 
@@ -218,15 +240,33 @@ def hide_window():
             print_red("hide_window",e)
             pass
 
-def check_if_running():
-    window = pyautogui.getWindowsWithTitle('lightspeed.py')
-    if len(window) > 1:
-        print_yellow_tag("info","another lightspeed.py might running")
-        x = input(' sure you want to run this? [y/n]')
-        if x == 'y' or x =="" or x:
-            return
-        else:
-            exit()
+def click_ok_on_lightspeedahk_popup():
+    '''自动点击lightspeed.ahk弹窗的ok按钮'''
+    try:
+        # 等待一段时间，弹窗窗口已经打开
+        time.sleep(0.8)
+        # 获取目标窗口的句柄
+        window = pyautogui.getWindowsWithTitle('lightspeed.ahk')[0]
+        # 切换焦点到目标窗口
+        window.minimize()
+        window.restore()
+        print_green("click_ok_on_lightspeedahk_popup", "click ok")
+        # 模拟按下ok按钮
+        pyautogui.press('enter')
+
+    except Exception as e:
+        print_red("hide_window",e)
+        pass
+
+# def check_if_running():
+#     window = pyautogui.getWindowsWithTitle('lightspeed.py')
+#     if len(window) > 1:
+#         print_yellow_tag("info","another lightspeed.py might running")
+#         x = input(' sure you want to run this? [y/n]')
+#         if x == 'y' or x =="" or x:
+#             return
+#         else:
+#             exit()
             
 def runinsubprocess(thing):
     creation_flags = subprocess.DETACHED_PROCESS | subprocess.CREATE_NEW_PROCESS_GROUP |subprocess.CREATE_BREAKAWAY_FROM_JOB
@@ -235,12 +275,13 @@ def runinsubprocess(thing):
 # --------------------------------------------------------------------------------
 
 if __name__ == "__main__":
-    # check_if_running()
     reload_all()
     first_run = False
     hide_window()
-    print_green("start ahk", "lightspeed.ahk")
     runinsubprocess("lightspeed.ahk")
+    print_green("start ahk", "lightspeed.ahk")
+    click_ok_on_lightspeedahk_popup()
+
 
     # keyboard.add_abbreviation("11", "john@stackabuse.com")
     # 监听快捷键事件
@@ -248,7 +289,7 @@ if __name__ == "__main__":
         time.sleep(0.1)
         print_yellow("1. focus on Task Bar/Desktop")
         print_yellow("2. USE HOTKEYS")
-        print_yellow("Press Enter to [reload]")
+        print_yellow("Press Enter to [$reload]")
         if config_data['auto_exit'] == 'on':
             exit()
         x= input()
