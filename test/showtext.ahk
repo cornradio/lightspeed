@@ -22,6 +22,6 @@ ShowAndHideText(text, duration) {
 }
 
 F1::
-    %title% := "GPTS.url"
-    ShowAndHideText(%title%, 600)
+    title := "GPTS.url"
+    ShowAndHideText(title, 600)
 return
