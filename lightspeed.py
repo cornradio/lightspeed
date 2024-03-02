@@ -67,9 +67,20 @@ def try_create_config():
         # 如果文件夹不存在，创建文件夹
         if not os.path.exists("assests"):
             os.makedirs("assests")
-        with open(config_path, "w", encoding='utf-8') as file:
-            json.dump(config_data, file, indent=4)
-            print("created config.json")
+
+        print("do you want to choose a folder to store your shortcuts?(Y/n)")
+        x = input()
+        if x == "Y" or x == "y" or x == "":
+            print("input the folder path (like C:\lightspeed\):")
+            folder_root_path = input()
+            config_data['folder_root_path'] = folder_root_path
+            with open(config_path, "w", encoding='utf-8') as file:
+                json.dump(config_data, file, indent=4)
+                print("created config.json - custom folder")
+        else:
+            with open(config_path, "w", encoding='utf-8') as file:
+                json.dump(config_data, file, indent=4)
+                print("created config.json")
 
 def check_config():
     '''检查配置文件'''
@@ -124,7 +135,8 @@ def loop_add_hotkey():
 ''')
     for key in range(0, 10):
         create_folder(f"{key}")# 创建文件夹初始化
-        load_folder_hotkey(f"{key}")# 加载文件夹内快捷方式快捷键
+        if key != 0:
+            load_folder_hotkey(f"{key}")# 加载文件夹内快捷方式快捷键
         # 多行字符串
         path = config_data['folder_root_path']
         if config_data['folder_root_path'] == "":
@@ -275,9 +287,18 @@ def runinsubprocess(thing):
     creation_flags = subprocess.DETACHED_PROCESS | subprocess.CREATE_NEW_PROCESS_GROUP |subprocess.CREATE_BREAKAWAY_FROM_JOB
     subprocess.Popen(thing, shell=True, creationflags=creation_flags,stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
+def if_not_installed_requirments():
+    '''检查是否安装了依赖库'''
+    try:
+        import pyautogui
+        import console_color_writer
+    except ModuleNotFoundError:
+        print_red("ModuleNotFoundError","please run 'pip install -r requirements.txt'")
+        exit()
 # --------------------------------------------------------------------------------
 
 if __name__ == "__main__":
+    if_not_installed_requirments()
     reload_all()
     first_run = False
     hide_window()
@@ -292,6 +313,7 @@ if __name__ == "__main__":
         time.sleep(0.1)
         print_yellow("1. focus on Task Bar/Desktop")
         print_yellow("2. USE HOTKEYS")
+        print_yellow("3. floder 0 for any thing(no hotkey)")
         print_yellow("Press Enter to [$reload]")
         if config_data['auto_exit'] == 'on':
             exit()
