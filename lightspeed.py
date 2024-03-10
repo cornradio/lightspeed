@@ -153,23 +153,27 @@ return
 
 def load_folder_hotkey(name):
     '''加载文件夹内快捷方式快捷键'''
+    dubcheck_list = [] # 重复检查列表
     folderpath = os.path.join(config_data['folder_root_path'], name)
     files = os.listdir(folderpath)
     if len(files) > 0:
         print_cyan("-"*23+f"[{name}]"+"-"*23)
     for file in files:
         filepath = os.path.join(folderpath, file)
-        if file[0].upper() in 'ABCDEFGHIJKLMNOPQRSTUVWXYZ[]':
+        if file[0].upper() in 'ABCDEFGHIJKLMNOPQRSTUVWXYZ[]【】':
             hotkey = f'{name} & ' + file[0].lower()
         else:# 如果有中文（不支持添加快捷键）
             print_red('nope',file)
             continue
-        if file.startswith('['):
+        if file.startswith('[') or file.startswith('【'):
             hotkey =  f'{name} & '+ file[1].lower()
             file = file[3:]
-        if file.startswith('【'):
-            hotkey =  f'{name} & '+ file[1].lower()
-            file = file[3:]
+
+        if hotkey in dubcheck_list:
+            print_red(file +" :dublicated key")
+            continue
+
+        dubcheck_list.append(hotkey)
         title = file.replace('.lnk', '').replace(' - 快捷方式', '').replace(' - 副本', '')  
         lightspeed_obj_list.append(lightspeed_obj(title, filepath, hotkey))
         
@@ -259,7 +263,7 @@ def click_ok_on_lightspeedahk_popup():
     '''自动点击lightspeed.ahk弹窗的ok按钮'''
     try:
         # 等待一段时间，弹窗窗口已经打开
-        time.sleep(0.8)
+        time.sleep(1)
         # 获取目标窗口的句柄
         window = pyautogui.getWindowsWithTitle('lightspeed.ahk')[0]
         # 切换焦点到目标窗口
@@ -298,13 +302,13 @@ def if_not_installed_requirments():
 # --------------------------------------------------------------------------------
 
 if __name__ == "__main__":
-    if_not_installed_requirments()
-    reload_all()
     first_run = False
-    hide_window()
-    runinsubprocess("lightspeed.ahk")
-    print_green("start ahk", "lightspeed.ahk")
-    click_ok_on_lightspeedahk_popup()
+    if_not_installed_requirments() # 检查是否安装了依赖库，并提示
+    reload_all() # 初始化 获取jsonconfig 、 loop增加hotkey到ahk文件
+    hide_window() # 隐藏命令行本体窗口
+    runinsubprocess("lightspeed.ahk") # 启动ahk脚本
+    print_green("start ahk", "lightspeed.ahk") # 提示
+    click_ok_on_lightspeedahk_popup() # 自动点击ahk弹窗的ok按钮
 
 
     # keyboard.add_abbreviation("11", "john@stackabuse.com")
