@@ -127,6 +127,8 @@ def create_folder(key):
 
 def loop_add_hotkey():
     init_ahk()
+    load_rightclick()
+
     '''循环添加快捷键'''
     print_cyan('''
 |o _ |__|_ _._  _  _  _|
@@ -224,6 +226,36 @@ open_or_activate(title,path)
 '''
     write_ahk(content)
 
+def load_rightclick():
+    '''加载右键菜单'''
+    content = '''
+Menu, Tray, NoStandard ; remove default tray menu entries
+Menu, Tray, Add, " ", OnShowFloder 
+Menu, Tray, Add, 0 , OnShowFloder 
+Menu, Tray, Add, 1 ,  OnShowFloder
+Menu, Tray, Add, 2 ,  OnShowFloder
+Menu, Tray, Add, 3 ,  OnShowFloder
+Menu, Tray, Add, 4 ,  OnShowFloder
+Menu, Tray, Add, 5 ,  OnShowFloder
+Menu, Tray, Add, 6 ,  OnShowFloder
+Menu, Tray, Add, 7 ,  OnShowFloder
+Menu, Tray, Add, 8 ,  OnShowFloder
+Menu, Tray, Add, 9 ,  OnShowFloder
+Menu, Tray, Add, Exit, Exit ; add another tray menu entry
+Menu, Tray, Default,  " " 
+
+
+Exit() {
+    ExitApp
+}
+
+OnShowFloder(mydir){
+    basedir := "pathpathpathpath"
+    mydir := basedir . mydir
+    Run, explorer %mydir%
+}
+    '''.replace("pathpathpathpath",config_data['folder_root_path'])
+    write_ahk(content)
 
 def write_ahk(ahkstr):
     '''写入ahk文件'''
