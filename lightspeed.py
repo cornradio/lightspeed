@@ -144,7 +144,7 @@ def loop_add_hotkey():
         if config_data['folder_root_path'] == "":
             path = os.getcwd() + "\\" + path
         content = f'''
-{str(key)} & {config_data['open_floder_key']}::
+{config_data['open_floder_key']} & {str(key)}::
 Run, "{path+str(key)}" 
 ShowAndHideText({str(key)} floder, 600)
 return
