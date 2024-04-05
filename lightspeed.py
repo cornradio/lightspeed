@@ -206,8 +206,12 @@ ShowAndHideText(text, duration) {
     Gui, Show, NA
     WinSet, Transparent, 180 ; 0 is fully transparent, 255 is fully opaque
 
-    Sleep, %duration%
+    SetTimer, DestroyGui, %duration%
+    return
+
+    DestroyGui:
     Gui, Destroy
+    return
 }
 
 
