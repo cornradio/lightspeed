@@ -3,8 +3,8 @@ import subprocess
 import json
 import pyautogui
 import time
-from console_color_writer import *
 from datetime import datetime
+from colorama import just_fix_windows_console, Fore, Back, Style
 
 
 class lightspeed_obj:
@@ -29,7 +29,8 @@ open_or_activate("{self.title}","{self.path}")
 return
 '''
         write_ahk(content)
-        print_green(f"{self.hotkeystr}",f"{self.title}")
+        
+        print(Fore.GREEN + f"{self.hotkeystr}" + Fore.WHITE +f" {self.title}" + Style.RESET_ALL)
 
     def start_program(self):
         '''打开程序'''
@@ -41,7 +42,7 @@ return
             # os.startfile(self.path)
             # process = subprocess.Popen(self.path, shell=True,stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         except Exception as e:
-            print_red("start_program",e)
+            print(Fore.RED + "start_program" + e + Style.RESET_ALL)
             pass
 
     def __str__(self):
@@ -71,7 +72,7 @@ def try_create_config():
         print("do you want to choose a folder to store your shortcuts?(Y/n)")
         x = input()
         if x == "Y" or x == "y" or x == "":
-            print("input the folder path (like C:\lightspeed\):")
+            print("input the folder path (like C:\\lightspeed\\ ):")
             folder_root_path = input()
             config_data['folder_root_path'] = folder_root_path
             with open(config_path, "w", encoding='utf-8') as file:
@@ -90,9 +91,11 @@ def check_config():
         json_config = json.load(file)
         for k,v in config_data.items():
             if k not in json_config:
-                print_red("Config Error",f"missing {k}")
-                print_red("example",f'"{k}": "{v}"')
-                print_red("try remove assests/config.json")
+                print(Fore.RED)
+                print("Config Error",f"missing {k}")
+                print("example",f'"{k}": "{v}"')
+                print("try remove assests/config.json")
+                print(Style.RESET_ALL)
                 exit()
         
 
@@ -130,11 +133,13 @@ def loop_add_hotkey():
     load_rightclick()
 
     '''循环添加快捷键'''
-    print_cyan('''
+    print(Fore.CYAN)
+    print('''
 |o _ |__|_ _._  _  _  _|
 ||(_|| ||__>|_)(/_(/_(_|
    _|       |           
 ''')
+    print(Style.RESET_ALL)
     for key in range(0, 10):
         create_folder(f"{key}")# 创建文件夹初始化
         if key != 0:
@@ -151,7 +156,7 @@ return
 '''
         write_ahk(content)
 
-    print_cyan("-"*22+f"[end]"+"-"*22)
+    print(Fore.CYAN + "-"*22+f"[end]"+"-"*22 + Style.RESET_ALL)
 
 def load_folder_hotkey(name):
     '''加载文件夹内快捷方式快捷键'''
@@ -159,20 +164,20 @@ def load_folder_hotkey(name):
     folderpath = os.path.join(config_data['folder_root_path'], name)
     files = os.listdir(folderpath)
     if len(files) > 0:
-        print_cyan("-"*23+f"[{name}]"+"-"*23)
+        print(Fore.CYAN + "-"*23+f"[{name}]"+"-"*23 + Style.RESET_ALL)
     for file in files:
         filepath = os.path.join(folderpath, file)
         if file[0].upper() in 'ABCDEFGHIJKLMNOPQRSTUVWXYZ[]【】':
             hotkey = f'{name} & ' + file[0].lower()
         else:# 如果有中文（不支持添加快捷键）
-            print_red('nope',file)
+            print(Fore.RED + 'nope'+file + Style.RESET_ALL)
             continue
         if file.startswith('[') or file.startswith('【'):
             hotkey =  f'{name} & '+ file[1].lower()
             file = file[3:]
 
         if hotkey in dubcheck_list:
-            print_red(file +" :dublicated key")
+            print(Fore.RED + file +" :dublicated key" + Style.RESET_ALL)
             continue
 
         dubcheck_list.append(hotkey)
@@ -276,7 +281,7 @@ Run, "{os.getcwd()}\\{config_path}"
 return
 '''
     write_ahk(content)
-    print_white("open config:",f"{config_data['open_config_key_ahk']}")
+    print("open config:",f"{config_data['open_config_key_ahk']}")
 
 def hide_window():
     '''隐藏窗口'''
@@ -292,7 +297,7 @@ def hide_window():
             # 模拟按下窗口最小化按钮
             window.minimize()
         except Exception as e:
-            print_red("hide_window",e)
+            print(Fore.RED + "hide_window" +str(e) + Style.RESET_ALL)
             pass
 
 def click_ok_on_lightspeedahk_popup():
@@ -305,23 +310,14 @@ def click_ok_on_lightspeedahk_popup():
         # 切换焦点到目标窗口
         window.minimize()
         window.restore()
-        print_green("click_ok_on_lightspeedahk_popup", "click ok")
+        print(Fore.GREEN + "click_ok_on_lightspeedahk_popup", "click ok" + Style.RESET_ALL)
         # 模拟按下ok按钮
         pyautogui.press('enter')
 
     except Exception as e:
-        print_red("hide_window",e)
+        print(Fore.RED + "hide_window" +str(e) + Style.RESET_ALL)
         pass
 
-# def check_if_running():
-#     window = pyautogui.getWindowsWithTitle('lightspeed.py')
-#     if len(window) > 1:
-#         print_yellow_tag("info","another lightspeed.py might running")
-#         x = input(' sure you want to run this? [y/n]')
-#         if x == 'y' or x =="" or x:
-#             return
-#         else:
-#             exit()
             
 def runinsubprocess(thing):
     creation_flags = subprocess.DETACHED_PROCESS | subprocess.CREATE_NEW_PROCESS_GROUP |subprocess.CREATE_BREAKAWAY_FROM_JOB
@@ -331,19 +327,22 @@ def if_not_installed_requirments():
     '''检查是否安装了依赖库'''
     try:
         import pyautogui
-        import console_color_writer
+        import colorama
     except ModuleNotFoundError:
-        print_red("ModuleNotFoundError","please run 'pip install -r requirements.txt'")
+        print(Fore.RED)
+        print("ModuleNotFoundError","please run 'pip install -r requirements.txt'")
+        print(Style.RESET_ALL)
         exit()
 # --------------------------------------------------------------------------------
 
 if __name__ == "__main__":
+    just_fix_windows_console()
     first_run = False
     if_not_installed_requirments() # 检查是否安装了依赖库，并提示
     reload_all() # 初始化 获取jsonconfig 、 loop增加hotkey到ahk文件
     hide_window() # 隐藏命令行本体窗口
     runinsubprocess("lightspeed.ahk") # 启动ahk脚本
-    print_green("start ahk", "lightspeed.ahk") # 提示
+    print(Fore.GREEN + "start ahk", "lightspeed.ahk" + Style.RESET_ALL) # 提示
     click_ok_on_lightspeedahk_popup() # 自动点击ahk弹窗的ok按钮
 
 
@@ -351,15 +350,15 @@ if __name__ == "__main__":
     # 监听快捷键事件
     while True:
         time.sleep(0.1)
-        print_yellow("1. focus on Task Bar/Desktop")
-        print_yellow("2. USE HOTKEYS")
-        print_yellow("3. floder 0 for any thing(no hotkey)")
-        print_yellow("Press Enter to [$reload]")
+        print("1. focus on Task Bar/Desktop")
+        print("2. USE HOTKEYS (default 0/1/2/3+enter)")
+        print("3. floder 0 will not bind hotkey)")
+        print("Press Enter to [$reload]")
         if config_data['auto_exit'] == 'on':
             exit()
         x= input()
         if x == "":
-            print_cyan("hard reload")
+            print("hard reload")
             # 检查是否存在lightspeed.py 如果存在，启动python ，如果不存在 启动exe
             if os.path.exists("lightspeed.py"):
                 runinsubprocess("python lightspeed.py")
