@@ -1,2 +1,2 @@
 pyautogui
-console_color_writer
+colorama
