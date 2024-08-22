@@ -3,13 +3,6 @@
 它是一个快捷键工具，可以启动/唤醒程序、打开文件夹，文件，网址，打开配置文件等。   
 lightspeed 的名字取自 “[光速启动]( https://powerkeys.github.io/launcher.html)”  
 
-## 一些截图
-![image.png](https://img.xwyue.com/i/2024/01/15/65a5264396fdd.png)
-
-![image2.png](https://img2.imgtp.com/2024/05/28/2COIewZa.png)
-
-![image3.png](https://img2.imgtp.com/2024/05/28/8mIiPzhZ.png)
-
 ## 功能
 - 程序会自动生成 1-9 9个快速文件夹
 - 鼠标点击任务栏/桌面，然后使用快捷键 1-9 + enter
