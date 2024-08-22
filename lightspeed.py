@@ -166,6 +166,8 @@ def load_folder_hotkey(name):
     if len(files) > 0:
         print(Fore.CYAN + "-"*23+f"[{name}]"+"-"*23 + Style.RESET_ALL)
     for file in files:
+        if file == "desktop.ini":
+            continue
         filepath = os.path.join(folderpath, file)
         if file[0].upper() in 'ABCDEFGHIJKLMNOPQRSTUVWXYZ[]【】':
             hotkey = f'{name} & ' + file[0].lower()
