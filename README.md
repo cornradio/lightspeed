@@ -34,3 +34,9 @@ lightspeed 的名字取自 “[光速启动]( https://powerkeys.github.io/launch
 此方法需要使用吗 windows terminal 
 - 外观 - 最小化时再通知区域隐藏终端
 - 外观 - 始终再通知区域显示图标
+
+## 适合搭配的软件
+https://ss1.xrea.com/pyonkichi.g1.xrea.com/en/claunch.html
+
+![image](https://github.com/user-attachments/assets/d32f39c8-3886-4fe7-9999-0a129c6cda3b)
+
