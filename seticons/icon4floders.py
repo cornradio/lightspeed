@@ -13,6 +13,9 @@ def set_folder_icon(folder_name, icon_path):
     
     desktop_ini_content = f'''[.ShellClassInfo]
 IconResource={icon_path},0
+[ViewState]
+FolderType=Pictures
+
 '''
     temp_ini_path = os.path.join(folder_name, 'temp_desktop.ini')
 
