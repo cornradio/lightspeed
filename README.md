@@ -36,11 +36,11 @@ lightspeed 的名字取自 “[光速启动]( https://powerkeys.github.io/launch
 - 外观 - 始终再通知区域显示图标
 
 ## lightspeed-UI
-这是一个独立的小ui程序，基于winform编写，调用资源管理器。
-可以使用如下ahk代码*快速启动* 使用ctrl alt z 在任何位置启动ui界面。
-默认图标效果是list-view ，想要实现如图效果需跑脚本：seticons/icon4floders.py , 相当于把文件夹类型设置为“图片”。
+这是一个独立的小ui程序，基于winform编写，调用资源管理器。  
+可以使用如下ahk代码*快速启动* 使用ctrl alt z 在任何位置启动ui界面。  
+默认图标效果是list-view ，想要实现如图效果需跑脚本：seticons/icon4floders.py , 相当于把文件夹类型设置为“图片”。  
 ![image](https://github.com/user-attachments/assets/b086c16b-051e-45de-9c89-2c70597b4cf1)
-
+  
 
 ```ahk
 ; OPEN OR ACTIVATE
