@@ -35,8 +35,53 @@ lightspeed 的名字取自 “[光速启动]( https://powerkeys.github.io/launch
 - 外观 - 最小化时再通知区域隐藏终端
 - 外观 - 始终再通知区域显示图标
 
-## 适合搭配的软件
-https://ss1.xrea.com/pyonkichi.g1.xrea.com/en/claunch.html
+## lightspeed-UI
+这是一个独立的小ui程序，基于winform编写，调用资源管理器。
+可以使用如下ahk代码*快速启动* 使用ctrl alt z 在任何位置启动ui界面。
+默认图标效果是list-view ，想要实现如图效果需跑脚本：seticons/icon4floders.py , 相当于把文件夹类型设置为“图片”。
+![image](https://github.com/user-attachments/assets/b086c16b-051e-45de-9c89-2c70597b4cf1)
 
-![image](https://github.com/user-attachments/assets/d32f39c8-3886-4fe7-9999-0a129c6cda3b)
+
+```ahk
+; OPEN OR ACTIVATE
+ShowAndHideText(text, duration) {
+    Gui, +LastFound +AlwaysOnTop -Caption +ToolWindow +Disabled
+    Gui, Color, 000000 ; background black
+    Gui, Font, s15, Verdana ; fontsize and fontname
+
+
+    textWidth := 400
+    textHeight := 40
+    winX := 0
+    winY := 20
+
+    Gui, Add, Text, x%winX% y%winY% w%textWidth% h%textHeight% cFFFFFF Center, %text%
+    Gui, Show, NA
+    WinSet, Transparent, 180 ; 0 is fully transparent, 255 is fully opaque
+
+    SetTimer, DestroyGui, %duration%
+    return
+
+    DestroyGui:
+    Gui, Destroy
+    return
+}
+
+
+open_or_activate(title,path)
+{
+    SetTitleMatchMode, 2
+
+    ShowAndHideText(title, 600)
+    if (WinExist(title))
+    {
+        WinActivate, %title% 
+    }
+    else
+    {
+        Run, %path%   
+    }
+}
+^!z::open_or_activate("ahk_exe lightspeed-UI.exe","lightspeed-UI.exe")
+```
 
